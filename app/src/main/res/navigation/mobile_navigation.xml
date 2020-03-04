@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/mobile_navigation"
+app:startDestination="@+id/navigation_timetable">
+
+<fragment
+    android:id="@+id/navigation_timetable"
+    android:name="com.example.careonthego.ui.timetableFragment"
+    android:label="@string/title_timetable"
+    tools:layout="@layout/fragment_timetable" />
+
+<fragment
+    android:id="@+id/navigation_patientInfo"
+    android:name="com.example.careonthego.ui.patientInfoFragment"
+    android:label="@string/title_patientInfo"
+    tools:layout="@layout/fragment_patient_information" />
+
+<fragment
+    android:id="@+id/navigation_medManagement"
+    android:name="com.example.careonthego.ui.medicationFragment"
+    android:label="@string/title_medManagement"
+    tools:layout="@layout/fragment_medication_management" />
+
+<fragment
+    android:id="@+id/navigation_feedback"
+    android:name="com.example.careonthego.ui.feedbackFragment"
+    android:label="@string/title_feedback"
+    tools:layout="@layout/fragment_feedback" />
+</navigation>

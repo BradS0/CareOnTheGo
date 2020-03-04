@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CareOnTheGo</string>
+    <string name="title_timetable">Timetable</string>
+    <string name="title_patientInfo">Patient Info</string>
+    <string name="title_medManagement">Medication</string>
+    <string name="title_feedback">Feedback</string>
+</resources>

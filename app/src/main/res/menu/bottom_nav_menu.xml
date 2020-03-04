@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_timetable"
+        android:icon="@drawable/ic_info_black_24dp"
+        android:title="@string/title_timetable" />
+
+    <item
+        android:id="@+id/navigation_patientInfo"
+        android:icon="@drawable/ic_timetable_black_24dp"
+        android:title="@string/title_patientInfo" />
+
+    <item
+        android:id="@+id/navigation_medManagement"
+        android:icon="@drawable/ic_medication_black_24dp"
+        android:title="@string/title_medManagement"/>
+
+    <item
+        android:id="@+id/navigation_feedback"
+        android:icon="@drawable/ic_bug_report_black_24dp"
+        android:title="@string/title_feedback"/>
+
+</menu>
