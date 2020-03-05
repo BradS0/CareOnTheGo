@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/navigation_timetable"
-        android:icon="@drawable/ic_info_black_24dp"
+        android:icon="@drawable/ic_timetable_black_24dp"
         android:title="@string/title_timetable" />
 
     <item
         android:id="@+id/navigation_patientInfo"
-        android:icon="@drawable/ic_timetable_black_24dp"
+        android:icon="@drawable/ic_info_black_24dp"
         android:title="@string/title_patientInfo" />
 
     <item

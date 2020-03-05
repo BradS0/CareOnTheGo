@@ -70,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 /* things to do:
-- James' mum
+- Fix the text problem with it not displaying
 - Fix that butters green colour
+- Fix the problem with the timetable & patient info page being in the wrong order.
 - Fix it on the text on the bar too
-
 
 */
 
