@@ -5,4 +5,12 @@
     <string name="title_medManagement">Medication</string>
     <string name="title_feedback">Feedback</string>
     <string name="patient_name">Patient Name</string>
+    
+    <string-array name="patient_array">
+        <item>Brod McBrodson</item>
+        <item>Rooxy Ilie</item>
+        <item>Jimothy Jameson</item>
+        <item>Kawnur Suf</item>
+    </string-array>
+
 </resources>
