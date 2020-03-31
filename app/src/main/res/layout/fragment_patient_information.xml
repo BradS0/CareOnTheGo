@@ -16,4 +16,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/patientSpinner"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:prompt="@string/patient_name"
+        android:spinnerMode="dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/text_patient_information" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,10 +23,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/patientNameArray"
+        android:id="@+id/timetableSpinner"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:prompt="@string/patient_name"
+        android:prompt="@string/day_of_the_week"
         android:spinnerMode="dialog"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

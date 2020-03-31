@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 
@@ -17,7 +19,17 @@ public class feedbackFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //Inflates the layout for this fragment
-        return inflater.inflate(R.layout.fragment_feedback, container, false);
+
+        View v =  inflater.inflate(R.layout.fragment_feedback, container, false);
+
+        Spinner feedbackSpinner = (Spinner) v.findViewById(R.id.feedbackSpinner);
+        ArrayAdapter<CharSequence> feedbackAdapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.feedback_array, android.R.layout.simple_spinner_dropdown_item);
+        feedbackAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        feedbackSpinner.setAdapter(feedbackAdapter);
+
+        return v;
+
     }
 }
+
+
