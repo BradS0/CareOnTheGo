@@ -20,6 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity implements OnItemSelectedListener{
 
     private ActionBar toolbar;
+    DatabaseHelper myDb;
 
 
     @Override
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
 
         toolbar.setTitle(("Timetable"));
         loadFragment(new timetableFragment());
+        myDb = new DatabaseHelper(this);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener OnNavigationViewSelectedListenerChoice
