@@ -27,6 +27,7 @@ public class timetableFragment extends Fragment {
         timetableAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line); //Sets the adapter viewport
         timetableSpinner.setAdapter(timetableAdapter); //Allocates the adapter to the spinner box
 
+
         return v;
 
     }

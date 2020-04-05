@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:prompt="@string/feedback_or_report"
         android:spinnerMode="dialog"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"

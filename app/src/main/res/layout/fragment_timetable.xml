@@ -22,6 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <Spinner
         android:id="@+id/timetableSpinner"
         android:layout_width="150dp"
@@ -32,6 +33,5 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/text_timetable" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
