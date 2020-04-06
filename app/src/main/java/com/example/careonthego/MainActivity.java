@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
 
         toolbar.setTitle(("Timetable"));
         loadFragment(new timetableFragment());
-        //myDb = new DatabaseHelper(this);
+        myDb = new DatabaseHelper(this);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener OnNavigationViewSelectedListenerChoice

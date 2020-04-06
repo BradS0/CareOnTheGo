@@ -3,8 +3,10 @@ package com.example.careonthego;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "CareOnTheGo.db";
@@ -23,9 +25,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String USERINFO_COL5 = "EMAIL";
 
     public static final String TABLE_USERFEEDBACK = "userFeedback_table";
+    public static final String USERFEEDBACK_COL1 = "USERFEEDBACK_ID";
+
     public static final String USERFEEDBACK_COL3 = "TYPE";
     public static final String USERFEEDBACK_COL4 = "INFORMATION";
     public static final String USERFEEDBACK_COL5 = "RATING";
+
 
     public static final String TABLE_TASK = "task_table";
     public static final String TASK_COL1 = "TASKID";
@@ -55,21 +60,59 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public void onConfigure(SQLiteDatabase db) {
+        db.setForeignKeyConstraintsEnabled(true);
+        super.onConfigure(db);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onCreate(SQLiteDatabase db) {
-       /* db.execSQL("create table " + TABLE_USER + "("+USER_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USER_COL2+" TEXT, "+USER_COL3+" TEXT)");
+        db.execSQL("create table " + TABLE_USER + "("+USER_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USER_COL2+" TEXT, "+USER_COL3+" TEXT)");
         db.execSQL("create table " + TABLE_USERINFO + "("+USER_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERINFO_COL2+" TEXT, "+USERINFO_COL3+" TEXT, "+USERINFO_COL4+" INT, "+USERINFO_COL5+"TEXT)");
-        db.execSQL("create table " + TABLE_USERFEEDBACK + "("+USER_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERFEEDBACK_COL2+" INTEGER, "+USERFEEDBACK_COL3+" INTEGER, "+USERFEEDBACK_COL4+" TEXT, "+USERFEEDBACK_COL5+"INTEGER)");
-        db.execSQL("create table " + TABLE_TASK + "("+TASK_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERFEEDBACK_COL2+" INTEGER, "+TASK_COL3+" TEXT, "+TASK_COL4+" TEXT, "+TASK_COL5+"TEXT, "+TASK_COL6+"TEXT)");
+
+        db.execSQL("create table " + TABLE_USERFEEDBACK + "("+USERFEEDBACK_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERFEEDBACK_COL2+" INTEGER," +
+                ""+USERFEEDBACK_COL3+" INTEGER, "+USERFEEDBACK_COL4+" TEXT, "+USERFEEDBACK_COL5+"INTEGER," +
+                " FOREIGN KEY ("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+" ("+USER_COL1+"))");
+        db.execSQL("create table " + TABLE_TASK + "("+TASK_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERFEEDBACK_COL2+" INTEGER, "+TASK_COL3+" TEXT, "+TASK_COL4+" TEXT, "+TASK_COL5+"TEXT, "+TASK_COL6+"TEXT, FOREIGN KEY ("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+" ("+USER_COL1+"))");
         db.execSQL("create table " + TABLE_PATIENTMED + "("+PATIENTMED_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+PATIENTMED_COL2+" INTEGER , "+PATIENTMED_COL3+" INTEGER, "+PATIENTMED_COL4+" TEXT)");
-        db.execSQL("create table " + TABLE_PATIENTINFO + "("+USER_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERFEEDBACK_COL2+" INTEGER, "+USERINFO_COL2+" TEXT, "+USERINFO_COL3+" TEXT, "+PATIENTINFO_COL5+"INTEGER, "+PATIENTINFO_COL6+"TEXT, "+PATIENTINFO_COL7+"TEXT, "+PATIENTINFO_COL8+"TEXT)");
-        db.execSQL("create table " + TABLE_MEDICATION_ + "("+PATIENTMED_COL3+" INTEGER PRIMARY KEY AUTOINCREMENT,"+MEDICATION_COL2+" TEXT, "+MEDICATION_COL3+" TEXT)");
-    */
+        db.execSQL("create table " + TABLE_PATIENTINFO + "("+USER_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERFEEDBACK_COL2+" INTEGER, "+USERINFO_COL2+" TEXT, "+USERINFO_COL3+" TEXT, "+PATIENTINFO_COL5+"INTEGER, "+PATIENTINFO_COL6+"TEXT, "+PATIENTINFO_COL7+"TEXT, "+PATIENTINFO_COL8+"TEXT, FOREIGN KEY ("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+" ("+USER_COL1+"))");
+       // db.execSQL("create table " + TABLE_MEDICATION_ + "("+PATIENTMED_COL3+" INTEGER PRIMARY KEY AUTOINCREMENT,"+MEDICATION_COL2+" TEXT, "+MEDICATION_COL3+" TEXT)");
+
+        String USER_TABLE_CREATE = "CREATE TABLE " + TABLE_USER + " ("
+                + USER_COL1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + USER_COL2 + " TEXT, "
+                + USER_COL3 + " TEXT, );";
+        db.execSQL(USER_TABLE_CREATE);
+
+        String USERINFO_TABLE_CREATE = "CREATE TABLE " + TABLE_USERINFO + " ("
+                + USER_COL1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + USERINFO_COL2 + " TEXT, "
+                + USERINFO_COL3 + " TEXT, "
+                + USERINFO_COL4 + " INTEGER, "
+                + USERINFO_COL5 + " INTEGER);";
+        db.execSQL(USERINFO_TABLE_CREATE);
+
+        String USERFEEDBACK_TABLE_CREATE = "CREATE TABLE " + TABLE_USERFEEDBACK + " ("
+                + USERFEEDBACK_COL1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + USERFEEDBACK_COL2 + " INTEGER, "
+                + USERFEEDBACK_COL3 + " INTEGER, "
+                + USERFEEDBACK_COL4 + " TEXT, "
+                + USERFEEDBACK_COL5 + " TEXT FOREIGN KEY("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+"("+USER_COL1+"));";
+        db.execSQL(USERINFO_TABLE_CREATE);
+
+
+
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-    //db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
-    //onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+        db.execSQL("DELETE FROM " + TABLE_USER);
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERINFO);
+        //db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERFEEDBACK);
+        onCreate(db);
+        db.close();
     }
 }
