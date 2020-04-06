@@ -1,12 +1,18 @@
 <resources>
     <string name="app_name">CareOnTheGo</string>
     <string name="title_timetable">Timetable</string>
-    <string name="title_patientInfo">Patient Info</string>
+
     <string name="title_medManagement">Medication</string>
     <string name="title_feedback">Feedback</string>
     <string name="patient_name">Patient Name:</string>
     <string name="day_of_the_week">Day of the Week:</string>
     <string name="feedback_or_report">Leave feedback / Report a problem</string>
+
+    <!-- Patient Info Strings -->
+    <string name="title_patientInfo">Patient Info</string>
+    <string name="ice_numbers_title"> ICE (in case of emergency) Contact Details: </string>
+    <string name="relevant_info_title"> Extra relevant information:</string>
+    <string name="new_patient_button"> Add New Patient</string>
 
     <string-array name="patient_array">
         <item>Patient 1</item>

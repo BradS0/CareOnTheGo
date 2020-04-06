@@ -1,32 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="-28dp">
+
+    <TextView
+        android:id="@+id/emergencyNumbers"
+        android:layout_width="378dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/box_back"
+        android:gravity="center_horizontal"
+        android:text="@string/ice_numbers_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/patientSpinner" />
+
+    <TextView
+        android:id="@+id/extraRelevantInfo"
+        android:layout_width="378dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/box_back"
+        android:gravity="center_horizontal"
+        android:text="@string/relevant_info_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emergencyNumbers" />
+
+    <Spinner
+        android:id="@+id/patientSpinner"
+        android:layout_width="172dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="4dp"
+        android:gravity="center_horizontal"
+        android:prompt="@string/patient_name"
+        android:spinnerMode="dialog"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.061"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_patient_information"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
         android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/patientSpinner"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Spinner
-        android:id="@+id/patientSpinner"
+    <Button
+        android:id="@+id/newPatientButton"
         android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:prompt="@string/patient_name"
-        android:spinnerMode="dialog"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/text_patient_information" />
+        android:layout_height="35dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/new_patient_button"
+        app:layout_constraintBottom_toTopOf="@+id/emergencyNumbers"
+        app:layout_constraintStart_toEndOf="@+id/patientSpinner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
