@@ -6,7 +6,6 @@
     <string name="title_feedback">Feedback</string>
     <string name="patient_name">Patient Name:</string>
     <string name="day_of_the_week">Day of the Week:</string>
-    <string name="feedback_or_report">Leave feedback / Report a problem</string>
 
     <!-- Patient Info Strings -->
     <string name="title_patientInfo">Patient Info</string>
@@ -30,6 +29,11 @@
         <item>Saturday</item>
     </string-array>
 
+
+    <string name = "feedback_prompt">Please provide some feedback so we can improve this application in the future...</string>
+    <string name="feedback_or_report">Leave feedback / Report a problem</string>
+    <string name ="rating_bar">Please select a rating!</string>
+    <string name ="feedback_submit">Submit</string>
     <string-array name="feedback_array">
         <item>Leave feedback</item>
         <item>Report a problem / bug</item>

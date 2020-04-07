@@ -79,6 +79,8 @@
         android:layout_marginLeft="20dp"
         android:layout_marginBottom="20dp"
         android:text="@string/new_patient_button"
+        android:textColor="@android:color/white"
+        android:background="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/emergencyNumbers"
         app:layout_constraintStart_toEndOf="@+id/patientSpinner" />
 
