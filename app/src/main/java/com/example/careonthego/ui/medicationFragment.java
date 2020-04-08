@@ -17,6 +17,7 @@ public class medicationFragment extends Fragment {
         //Constructor
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -27,8 +28,11 @@ public class medicationFragment extends Fragment {
         medicationAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         medicationSpinner.setAdapter(medicationAdapter);
 
-        return v;
+        // RecyclerView recyclerMedication = (RecyclerView) v.findViewById(R.id.recyclerView);
+        // GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        // recyclerMedication.setLayoutManager(gridLayoutManager);
 
+        return v;
 
     }
 }

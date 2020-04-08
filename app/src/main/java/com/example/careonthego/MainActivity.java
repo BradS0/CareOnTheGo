@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
     DatabaseHelper myDb;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +36,11 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
         toolbar.setTitle(("Timetable"));
         loadFragment(new timetableFragment());
         myDb = new DatabaseHelper(this);
+
+       // RecyclerView recyclerMedication = (RecyclerView)findViewById(R.id.recyclerView);
+       // GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+       // recyclerMedication.setLayoutManager(gridLayoutManager);
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener OnNavigationViewSelectedListenerChoice
