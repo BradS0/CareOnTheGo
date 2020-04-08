@@ -2,7 +2,6 @@
     <string name="app_name">CareOnTheGo</string>
     <string name="title_timetable">Timetable</string>
 
-    <string name="title_medManagement">Medication</string>
     <string name="title_feedback">Feedback</string>
     <string name="patient_name">Patient Name:</string>
     <string name="day_of_the_week">Day of the Week:</string>
@@ -29,6 +28,9 @@
         <item>Saturday</item>
     </string-array>
 
+    <string name ="table_title">Medication Name: </string>
+    <string name ="table_quantity">Medication Quantity: </string>
+    <string name ="title_medManagement">Medication</string>
 
     <string name = "feedback_prompt">Please provide some feedback so we can improve this application in the future...</string>
     <string name="feedback_or_report">Leave feedback / Report a problem</string>
