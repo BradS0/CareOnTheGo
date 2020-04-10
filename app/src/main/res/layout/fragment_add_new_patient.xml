@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.addNewPatientFragment">
+
+    <TextView
+        android:id="@+id/patientPrompt"
+        android:layout_width="405dp"
+        android:layout_height="68dp"
+        android:paddingLeft="6dp"
+        android:text="@string/p_prompt"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/pFirstName"
+        android:layout_width="174dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="6dp"
+        android:text="@string/p_firstName"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/patientPrompt" />
+
+    <TextView
+        android:id="@+id/pSurname"
+        android:layout_width="174dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="12dp"
+        android:paddingLeft="6dp"
+        android:text="@string/p_surname"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pFirstName" />
+
+    <TextView
+        android:id="@+id/pAge"
+        android:layout_width="174dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="12dp"
+        android:paddingLeft="6dp"
+        android:text="@string/p_age"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pSurname" />
+
+    <TextView
+        android:id="@+id/pAddress"
+        android:layout_width="174dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="12dp"
+        android:paddingLeft="6dp"
+        android:text="@string/p_address"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pAge" />
+
+    <TextView
+        android:id="@+id/pExtraNotes"
+        android:layout_width="174dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="12dp"
+        android:paddingLeft="6dp"
+        android:text="@string/p_extraNotes"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pAddress" />
+
+    <TextView
+        android:id="@+id/pIceNumbers"
+        android:layout_width="181dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="12dp"
+        android:paddingLeft="6dp"
+        android:text="@string/p_iceNumbers"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pExtraNotes" />
+
+    <EditText
+        android:id="@+id/pAgeInput"
+        android:layout_width="223dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="@string/p_age"
+        android:inputType="number"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/pAge"
+        app:layout_constraintTop_toBottomOf="@+id/pSurnameInput" />
+
+    <EditText
+        android:id="@+id/pFirstNameInput"
+        android:layout_width="223dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="@string/p_firstName"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/pFirstName"
+        app:layout_constraintTop_toBottomOf="@+id/patientPrompt" />
+
+    <EditText
+        android:id="@+id/pSurnameInput"
+        android:layout_width="223dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="@string/p_surname"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/pSurname"
+        app:layout_constraintTop_toBottomOf="@+id/pFirstNameInput" />
+
+    <EditText
+        android:id="@+id/pAddressInput"
+        android:layout_width="223dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="@string/p_address"
+        android:inputType="textPostalAddress"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/pAddress"
+        app:layout_constraintTop_toBottomOf="@+id/pAgeInput" />
+
+    <EditText
+        android:id="@+id/pExtraNotesInput"
+        android:layout_width="223dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="@string/p_extraNotes"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/pExtraNotes"
+        app:layout_constraintTop_toBottomOf="@+id/pAddressInput" />
+
+    <EditText
+        android:id="@+id/pNumberInput"
+        android:layout_width="217dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:hint="@string/p_iceNumbers"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/pIceNumbers"
+        app:layout_constraintTop_toBottomOf="@+id/pExtraNotesInput" />
+
+    <Button
+        android:id="@+id/pSubmit"
+        android:layout_width="79dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="177dp"
+        android:layout_marginRight="177dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/feedback_submit"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pNumberInput" />
+</androidx.constraintlayout.widget.ConstraintLayout>

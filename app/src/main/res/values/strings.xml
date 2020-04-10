@@ -12,6 +12,15 @@
     <string name="relevant_info_title"> Extra relevant information:</string>
     <string name="new_patient_button"> Add New Patient</string>
 
+    <!-- Add New Patient Fields -->
+    <string name="p_prompt">Please enter the new patient information below: </string>
+    <string name="p_firstName">Patient First Name: </string>
+    <string name="p_surname">Patient Surname: </string>
+    <string name="p_age">Patient Age: </string>
+    <string name="p_address">Patient Address: </string>
+    <string name="p_extraNotes">Patient Extra Notes: </string>
+    <string name="p_iceNumbers">Patient ICE Numbers: </string>
+
     <string-array name="patient_array">
         <item>Patient 1</item>
         <item>Patient 2</item>
@@ -28,14 +37,14 @@
         <item>Saturday</item>
     </string-array>
 
-    <string name ="table_title">Medication Name: </string>
-    <string name ="table_quantity">Medication Quantity: </string>
-    <string name ="title_medManagement">Medication</string>
+    <string name="table_title">Medication Name: </string>
+    <string name="table_quantity">Medication Quantity: </string>
+    <string name="title_medManagement">Medication</string>
 
-    <string name = "feedback_prompt">Please provide some feedback so we can improve this application in the future...</string>
+    <string name="feedback_prompt">Please provide some feedback so we can improve this application in the future...</string>
     <string name="feedback_or_report">Leave feedback / Report a problem</string>
-    <string name ="rating_bar">Please select a rating!</string>
-    <string name ="feedback_submit">Submit</string>
+    <string name="rating_bar">Please select a rating!</string>
+    <string name="feedback_submit">Submit</string>
     <string-array name="feedback_array">
         <item>Leave feedback</item>
         <item>Report a problem / bug</item>

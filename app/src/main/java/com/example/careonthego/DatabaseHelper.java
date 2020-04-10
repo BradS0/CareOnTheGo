@@ -1,5 +1,6 @@
 package com.example.careonthego;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -60,7 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
-        SQLiteDatabase db = this.getWritableDatabase();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -78,9 +79,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + TABLE_USERFEEDBACK + "("+USERFEEDBACK_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERFEEDBACK_COL2+" INTEGER," +
                 ""+USERFEEDBACK_COL3+" INTEGER, "+USERFEEDBACK_COL4+" TEXT, "+USERFEEDBACK_COL5+"INTEGER," +
                 " FOREIGN KEY ("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+" ("+USER_COL1+"))");
-        db.execSQL("create table " + TABLE_TASK + "("+TASK_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERFEEDBACK_COL2+" INTEGER, "+TASK_COL3+" TEXT, "+TASK_COL4+" TEXT, "+TASK_COL5+"TEXT, "+TASK_COL6+"TEXT, FOREIGN KEY ("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+" ("+USER_COL1+"))");
-        db.execSQL("create table " + TABLE_PATIENTMED + "("+PATIENTMED_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+PATIENTMED_COL2+" INTEGER , "+PATIENTMED_COL3+" INTEGER, "+PATIENTMED_COL4+" TEXT)");
-        db.execSQL("create table " + TABLE_PATIENTINFO + "("+USER_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERFEEDBACK_COL2+" INTEGER, "+USERINFO_COL2+" TEXT, "+USERINFO_COL3+" TEXT, "+PATIENTINFO_COL5+"INTEGER, "+PATIENTINFO_COL6+"TEXT, "+PATIENTINFO_COL7+"TEXT, "+PATIENTINFO_COL8+"TEXT, FOREIGN KEY ("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+" ("+USER_COL1+"))");
+        db.execSQL("create table " + TABLE_TASK + "("+TASK_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERFEEDBACK_COL2+" INTEGER, "+TASK_COL3+" TEXT, "+TASK_COL4+
+                " TEXT, "+TASK_COL5+"TEXT, "+TASK_COL6+"TEXT, FOREIGN KEY ("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+" ("+USER_COL1+"))");
+        db.execSQL("create table " + TABLE_PATIENTMED + "("+PATIENTMED_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+PATIENTMED_COL2+" INTEGER , "+PATIENTMED_COL3+" INTEGER, "
+                +PATIENTMED_COL4+" TEXT)");
+        db.execSQL("create table " + TABLE_PATIENTINFO + "("+USER_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERFEEDBACK_COL2+" INTEGER, "+USERINFO_COL2+" TEXT, "
+                +USERINFO_COL3+" TEXT, "+PATIENTINFO_COL5+"INTEGER, "+PATIENTINFO_COL6+"TEXT, "+PATIENTINFO_COL7+"TEXT, "+PATIENTINFO_COL8+"TEXT," +
+                " FOREIGN KEY ("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+" ("+USER_COL1+"))");
         db.execSQL("create table " + TABLE_MEDICATION + "("+PATIENTMED_COL3+" INTEGER PRIMARY KEY AUTOINCREMENT,"+MEDICATION_COL2+" TEXT, "+MEDICATION_COL3+" INTEGER)");
 
 
@@ -153,4 +158,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
         db.close();
     }
+
+    public boolean insertPatientData(String firstName, String surname, Integer age, String address,
+                                     String extraNotes, String emergencyNumbers) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues patientValues = new ContentValues();
+        patientValues.put(USERINFO_COL2, firstName);
+        patientValues.put(USERINFO_COL3, surname);
+        patientValues.put(PATIENTINFO_COL5, age);
+        patientValues.put(PATIENTINFO_COL6, address);
+        patientValues.put(PATIENTINFO_COL7, extraNotes);
+        patientValues.put(PATIENTINFO_COL8, emergencyNumbers);
+        long result = db.insert(TABLE_PATIENTINFO, null, patientValues);
+        if (result == -1){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+
+
 }

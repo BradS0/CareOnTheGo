@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
         myDb = new DatabaseHelper(this);
 
        // RecyclerView recyclerMedication = (RecyclerView)findViewById(R.id.recyclerView);
-       // GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+       // \GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
        // recyclerMedication.setLayoutManager(gridLayoutManager);
 
     }
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
             return false;
     };
 
-    private void loadFragment(Fragment fragment) {
+    public void loadFragment(Fragment fragment) {
         // For loading fragments
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
