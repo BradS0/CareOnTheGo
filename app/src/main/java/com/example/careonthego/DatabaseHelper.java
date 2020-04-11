@@ -61,7 +61,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -72,7 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+/*
         db.execSQL("create table " + TABLE_USER + "("+USER_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USER_COL2+" TEXT, "+USER_COL3+" TEXT)");
         db.execSQL("create table " + TABLE_USERINFO + "("+USER_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERINFO_COL2+" TEXT, "+USERINFO_COL3+" TEXT, "+USERINFO_COL4+" INT, "+USERINFO_COL5+"TEXT)");
 
@@ -87,7 +86,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 +USERINFO_COL3+" TEXT, "+PATIENTINFO_COL5+"INTEGER, "+PATIENTINFO_COL6+"TEXT, "+PATIENTINFO_COL7+"TEXT, "+PATIENTINFO_COL8+"TEXT," +
                 " FOREIGN KEY ("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+" ("+USER_COL1+"))");
         db.execSQL("create table " + TABLE_MEDICATION + "("+PATIENTMED_COL3+" INTEGER PRIMARY KEY AUTOINCREMENT,"+MEDICATION_COL2+" TEXT, "+MEDICATION_COL3+" INTEGER)");
-
+*/
 
         String USER_TABLE_CREATE = "CREATE TABLE " + TABLE_USER + " ("
                 + USER_COL1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -169,12 +168,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         patientValues.put(PATIENTINFO_COL6, address);
         patientValues.put(PATIENTINFO_COL7, extraNotes);
         patientValues.put(PATIENTINFO_COL8, emergencyNumbers);
-        long result = db.insert(TABLE_PATIENTINFO, null, patientValues);
-        if (result == -1){
+        long patientResult = db.insert(TABLE_PATIENTINFO, null, patientValues);
+        if (patientResult == -1){
             return false;
         } else {
             return true;
         }
+    }
+
+    public boolean insertFeedbackData(Boolean type, String feedback, Float rating) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues feedbackValues = new ContentValues();
+        feedbackValues.put(USERFEEDBACK_COL3, type);
+        feedbackValues.put(USERFEEDBACK_COL4, feedback);
+        feedbackValues.put(USERFEEDBACK_COL5, rating);
+        long feedbackResult = db.insert(TABLE_USERFEEDBACK, null, feedbackValues);
+        if (feedbackResult == -1){
+            return false;
+        } else {
+            return true;
+        }
+
     }
 
 

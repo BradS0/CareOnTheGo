@@ -46,8 +46,8 @@
     <string name="rating_bar">Please select a rating!</string>
     <string name="feedback_submit">Submit</string>
     <string-array name="feedback_array">
-        <item>Leave feedback</item>
-        <item>Report a problem / bug</item>
+        <item name="feedbackChoice1">Leave feedback</item>
+        <item name="feedbackChoice2">Report a problem / bug</item>
     </string-array>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>

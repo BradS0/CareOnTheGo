@@ -38,28 +38,35 @@ public class addNewPatientFragment extends Fragment {
         editAddress = (EditText)v.findViewById(R.id.pAddressInput);
         editExtraNotes = (EditText)v.findViewById(R.id.pExtraNotesInput);
         editEmergencyNumbers = (EditText)v.findViewById(R.id.pNumberInput);
+        submitPatientDataBtn = v.findViewById(R.id.pSubmit);
         // Inflate the layout for this fragment
-        addData();
+        addPatientData();
 
         return v;
     }
 
-    public void addData() {
+    public void addPatientData() {
         submitPatientDataBtn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         convertAge = editAge.getText().toString();
                         finalEditAge = Integer.parseInt(convertAge);
-                        boolean isInserted = myDb.insertPatientData(editFirstName.getText().toString(),
+                        boolean patientInserted = myDb.insertPatientData(editFirstName.getText().toString(),
                                 editSurname.getText().toString(),
                                 finalEditAge,
                                 editAddress.getText().toString(),
                                 editExtraNotes.getText().toString(),
                                 editEmergencyNumbers.getText().toString());
-                        if (isInserted == true){
+                        if (patientInserted == true){
                             Toast.makeText(getContext(),"Data Inserted Successfully",
                                     Toast.LENGTH_LONG).show();
+                            editFirstName.getText().clear();
+                            editSurname.getText().clear();
+                            editAge.getText().clear();
+                            editAddress.getText().clear();
+                            editExtraNotes.getText().clear();
+                            editEmergencyNumbers.getText().clear();
                         } else{
                             Toast.makeText(getContext(),"Data Not Inserted",
                                     Toast.LENGTH_LONG).show();
