@@ -2,12 +2,16 @@ package com.example.careonthego;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "CareOnTheGo.db";
@@ -58,6 +62,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String MEDICATION_COL2 = "MEDICATIONNAME";
     public static final String MEDICATION_COL3 = "MEDICATIONQUANTITY";
 
+    String fetchedDetails, fetchedInfo;
+    ArrayList<String> patientInfoDetails;
+
+
+    //Default Values for Patient Info Table
+
+
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -71,22 +82,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onCreate(SQLiteDatabase db) {
-/*
-        db.execSQL("create table " + TABLE_USER + "("+USER_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USER_COL2+" TEXT, "+USER_COL3+" TEXT)");
-        db.execSQL("create table " + TABLE_USERINFO + "("+USER_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERINFO_COL2+" TEXT, "+USERINFO_COL3+" TEXT, "+USERINFO_COL4+" INT, "+USERINFO_COL5+"TEXT)");
-
-        db.execSQL("create table " + TABLE_USERFEEDBACK + "("+USERFEEDBACK_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERFEEDBACK_COL2+" INTEGER," +
-                ""+USERFEEDBACK_COL3+" INTEGER, "+USERFEEDBACK_COL4+" TEXT, "+USERFEEDBACK_COL5+"INTEGER," +
-                " FOREIGN KEY ("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+" ("+USER_COL1+"))");
-        db.execSQL("create table " + TABLE_TASK + "("+TASK_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERFEEDBACK_COL2+" INTEGER, "+TASK_COL3+" TEXT, "+TASK_COL4+
-                " TEXT, "+TASK_COL5+"TEXT, "+TASK_COL6+"TEXT, FOREIGN KEY ("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+" ("+USER_COL1+"))");
-        db.execSQL("create table " + TABLE_PATIENTMED + "("+PATIENTMED_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+PATIENTMED_COL2+" INTEGER , "+PATIENTMED_COL3+" INTEGER, "
-                +PATIENTMED_COL4+" TEXT)");
-        db.execSQL("create table " + TABLE_PATIENTINFO + "("+USER_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERFEEDBACK_COL2+" INTEGER, "+USERINFO_COL2+" TEXT, "
-                +USERINFO_COL3+" TEXT, "+PATIENTINFO_COL5+"INTEGER, "+PATIENTINFO_COL6+"TEXT, "+PATIENTINFO_COL7+"TEXT, "+PATIENTINFO_COL8+"TEXT," +
-                " FOREIGN KEY ("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+" ("+USER_COL1+"))");
-        db.execSQL("create table " + TABLE_MEDICATION + "("+PATIENTMED_COL3+" INTEGER PRIMARY KEY AUTOINCREMENT,"+MEDICATION_COL2+" TEXT, "+MEDICATION_COL3+" INTEGER)");
-*/
 
         String USER_TABLE_CREATE = "CREATE TABLE " + TABLE_USER + " ("
                 + USER_COL1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -142,6 +137,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + MEDICATION_COL2 + " TEXT, "
                 + MEDICATION_COL3 + " INTEGER);";
         db.execSQL(MEDICATION_TABLE_CREATE);
+
+        String patientInfoD1 = "('John', 'Smith', 63, '56 Example Lane', 'Tendency to misplace things', '07123456789')";
+        String patientInfoD2 = "('Jane', 'Doe', 78, '99 Example Lane', 'Dislikes toast at breakfast', '07123453428')";
+        String patientInfoD3 = "('Jim', 'Jones', 85, '11 Example Lane', 'Doesnt drink hot drinks', '07987654321')";
+        String patientInfoD4 = "('Jennifer', 'Adams', 93, '33 Example Lane', 'Struggles with poor eyesight', '07213465789')";
+
+        String PATIENTINFO_DEFAULT_VALUES = "INSERT INTO " + TABLE_PATIENTINFO + "(" +USERINFO_COL2+ ","
+                +USERINFO_COL3 + "," + PATIENTINFO_COL5+ "," +PATIENTINFO_COL6+ "," + PATIENTINFO_COL7
+                + "," + PATIENTINFO_COL8 + ") VALUES " + patientInfoD1 + "," + patientInfoD2 + "," +
+                patientInfoD3 + "," + patientInfoD4 + ";";
+        db.execSQL(PATIENTINFO_DEFAULT_VALUES);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -169,6 +175,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         patientValues.put(PATIENTINFO_COL7, extraNotes);
         patientValues.put(PATIENTINFO_COL8, emergencyNumbers);
         long patientResult = db.insert(TABLE_PATIENTINFO, null, patientValues);
+        db.close();
         if (patientResult == -1){
             return false;
         } else {
@@ -183,6 +190,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         feedbackValues.put(USERFEEDBACK_COL4, feedback);
         feedbackValues.put(USERFEEDBACK_COL5, rating);
         long feedbackResult = db.insert(TABLE_USERFEEDBACK, null, feedbackValues);
+        db.close();
         if (feedbackResult == -1){
             return false;
         } else {
@@ -191,7 +199,71 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public List<String> getPatientLabels() {
+        List<String> patientNames = new ArrayList<String>();
+        String selectQuery1 = "SELECT " + USERINFO_COL2 + "||" + "' '" + "||" + USERINFO_COL3 + " FROM " + TABLE_PATIENTINFO;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor patientLabelCursor = db.rawQuery(selectQuery1, null);
+        if(patientLabelCursor.moveToFirst()){
+            do{
+                patientNames.add(patientLabelCursor.getString(0));
+            } while (patientLabelCursor.moveToNext());
+        }
+        patientLabelCursor.close();
+        db.close();
 
+        return patientNames;
+
+    }
+
+    public ArrayList<String> getPatientInfoDetails(String patientName) {
+        patientInfoDetails = new ArrayList<String>();
+        String[] splitString = patientName.split(" ");
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectEmergencyDetails = "SELECT " +PATIENTINFO_COL8+ " FROM " + TABLE_PATIENTINFO+ " WHERE " + USERINFO_COL2 + "= '" +splitString[0]+ "'";
+        String selectRelevantInfo = "SELECT " +PATIENTINFO_COL7+ " FROM " + TABLE_PATIENTINFO+ " WHERE " + USERINFO_COL2 + "= '" +splitString[0]+ "'";
+        Cursor emergencyDetailsCursor = db.rawQuery(selectEmergencyDetails, null);
+        Cursor relevantInfoCursor = db.rawQuery(selectRelevantInfo, null);
+
+        if(relevantInfoCursor!=null && relevantInfoCursor.getCount()>0){
+            relevantInfoCursor.moveToFirst();
+            do{
+                fetchedInfo = relevantInfoCursor.getString(0);
+            }while (relevantInfoCursor.moveToNext());
+        }
+
+        if(emergencyDetailsCursor!=null && emergencyDetailsCursor.getCount()>0){
+            emergencyDetailsCursor.moveToFirst();
+            do{
+                fetchedDetails = emergencyDetailsCursor.getString(0);
+            }while (emergencyDetailsCursor.moveToNext());
+        }
+        emergencyDetailsCursor.close();
+        db.close();
+        patientInfoDetails.add(fetchedDetails);
+        patientInfoDetails.add(fetchedInfo);
+
+        return patientInfoDetails;
+
+    }
+
+
+/*
+        db.execSQL("create table " + TABLE_USER + "("+USER_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USER_COL2+" TEXT, "+USER_COL3+" TEXT)");
+        db.execSQL("create table " + TABLE_USERINFO + "("+USER_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERINFO_COL2+" TEXT, "+USERINFO_COL3+" TEXT, "+USERINFO_COL4+" INT, "+USERINFO_COL5+"TEXT)");
+
+        db.execSQL("create table " + TABLE_USERFEEDBACK + "("+USERFEEDBACK_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERFEEDBACK_COL2+" INTEGER," +
+                ""+USERFEEDBACK_COL3+" INTEGER, "+USERFEEDBACK_COL4+" TEXT, "+USERFEEDBACK_COL5+"INTEGER," +
+                " FOREIGN KEY ("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+" ("+USER_COL1+"))");
+        db.execSQL("create table " + TABLE_TASK + "("+TASK_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERFEEDBACK_COL2+" INTEGER, "+TASK_COL3+" TEXT, "+TASK_COL4+
+                " TEXT, "+TASK_COL5+"TEXT, "+TASK_COL6+"TEXT, FOREIGN KEY ("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+" ("+USER_COL1+"))");
+        db.execSQL("create table " + TABLE_PATIENTMED + "("+PATIENTMED_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+PATIENTMED_COL2+" INTEGER , "+PATIENTMED_COL3+" INTEGER, "
+                +PATIENTMED_COL4+" TEXT)");
+        db.execSQL("create table " + TABLE_PATIENTINFO + "("+USER_COL1+" INTEGER PRIMARY KEY AUTOINCREMENT,"+USERFEEDBACK_COL2+" INTEGER, "+USERINFO_COL2+" TEXT, "
+                +USERINFO_COL3+" TEXT, "+PATIENTINFO_COL5+"INTEGER, "+PATIENTINFO_COL6+"TEXT, "+PATIENTINFO_COL7+"TEXT, "+PATIENTINFO_COL8+"TEXT," +
+                " FOREIGN KEY ("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+" ("+USER_COL1+"))");
+        db.execSQL("create table " + TABLE_MEDICATION + "("+PATIENTMED_COL3+" INTEGER PRIMARY KEY AUTOINCREMENT,"+MEDICATION_COL2+" TEXT, "+MEDICATION_COL3+" INTEGER)");
+*/
 
 
 }

@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
                     loadFragment(new medicationFragment());
                     return true;
                 case R.id.navigation_feedback:
-                    toolbar.setTitle("Feedback");
+                    toolbar.setTitle("Feedback / Report a bug");
                     loadFragment(new feedbackFragment());
                     return true;
             }

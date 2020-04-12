@@ -50,6 +50,11 @@
         <item name="feedbackChoice2">Report a problem / bug</item>
     </string-array>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="bugPrompt">Please provide some details that explain your bug / problem...</string>
+    <string-array name="bug_array">
+        <item >Report a problem / bug</item>
+        <item >Leave feedback</item>
+    </string-array>
+
 
 </resources>

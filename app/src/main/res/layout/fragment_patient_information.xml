@@ -84,4 +84,30 @@
         app:layout_constraintBottom_toTopOf="@+id/emergencyNumbers"
         app:layout_constraintStart_toEndOf="@+id/patientSpinner" />
 
+    <TextView
+        android:id="@+id/emergencyDetailsDisplay"
+        android:layout_width="352dp"
+        android:layout_height="105dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/emergencyNumbers"
+        app:layout_constraintStart_toStartOf="@+id/emergencyNumbers"
+        app:layout_constraintTop_toTopOf="@+id/emergencyNumbers" />
+
+    <TextView
+        android:id="@+id/relevantInformationDisplay"
+        android:layout_width="352dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="40dp"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/extraRelevantInfo"
+        app:layout_constraintStart_toStartOf="@+id/extraRelevantInfo"
+        app:layout_constraintTop_toTopOf="@+id/extraRelevantInfo" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

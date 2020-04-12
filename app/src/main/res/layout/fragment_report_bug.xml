@@ -1,14 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.reportBugFragment">
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <Spinner
+        android:id="@+id/bugSpinner"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:prompt="@string/feedback_or_report"
+        android:spinnerMode="dialog"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/text_feedback" />
+
+    <EditText
+        android:id="@+id/bugReportInput"
+        android:layout_width="385dp"
+        android:layout_height="355dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/box_back"
+        android:gravity="start"
+        android:hint="@string/bugPrompt"
+        android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
+        android:isScrollContainer="true"
+        android:paddingLeft="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bugSpinner" />
+
+    <Button
+        android:layout_width="75dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="162dp"
+        android:layout_marginLeft="162dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="165dp"
+        android:layout_marginRight="165dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/feedback_submit"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bugReportInput" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

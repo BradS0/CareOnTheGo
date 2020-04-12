@@ -25,6 +25,8 @@ public class feedbackFragment extends Fragment {
     RatingBar feedbackBar;
     DatabaseHelper db;
     Boolean type;
+    Spinner feedbackSpinner;
+    ArrayAdapter<CharSequence> feedbackAdapter;
 
     public feedbackFragment() {
         //Constructor
@@ -36,8 +38,8 @@ public class feedbackFragment extends Fragment {
         View v =  inflater.inflate(R.layout.fragment_feedback, container, false);
 
          //Spinner Code
-        Spinner feedbackSpinner = (Spinner) v.findViewById(R.id.feedbackSpinner);
-        ArrayAdapter<CharSequence> feedbackAdapter = ArrayAdapter.createFromResource(this.getActivity(),
+        feedbackSpinner = (Spinner) v.findViewById(R.id.feedbackSpinner);
+        feedbackAdapter = ArrayAdapter.createFromResource(this.getActivity(),
                 R.array.feedback_array, android.R.layout.simple_spinner_dropdown_item);
         feedbackAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         feedbackSpinner.setAdapter(feedbackAdapter);
@@ -58,12 +60,8 @@ public class feedbackFragment extends Fragment {
                     switch(position){
                         case 0:
                             loadFragment(new feedbackFragment());
-                            Toast.makeText(getContext(),"hello",
-                                    Toast.LENGTH_LONG).show();
                         case 1:
-                            loadFragment(new timetableFragment());
-                            Toast.makeText(getContext(),"AAAAAAAAAAAAAA",
-                                    Toast.LENGTH_LONG).show();
+                            loadFragment(new reportBugFragment());
                     }
                 }
                 count++;
