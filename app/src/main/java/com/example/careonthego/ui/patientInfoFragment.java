@@ -25,6 +25,7 @@ public class patientInfoFragment extends Fragment {
     Spinner patientSpinner;
     DatabaseHelper db;
     TextView emergencyDetailsDisplay, relevantDetailsDisplay;
+    Button addNewPatientBtn;
 
     public patientInfoFragment() {
         //Constructor
@@ -65,8 +66,7 @@ public class patientInfoFragment extends Fragment {
         });
 
 
-        Button addNewPatientBtn = (Button)v.findViewById(R.id.newPatientButton);
-
+        addNewPatientBtn = (Button)v.findViewById(R.id.newPatientButton);
         addNewPatientBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){

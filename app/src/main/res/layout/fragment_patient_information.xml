@@ -97,7 +97,8 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/emergencyNumbers"
         app:layout_constraintStart_toStartOf="@+id/emergencyNumbers"
-        app:layout_constraintTop_toTopOf="@+id/emergencyNumbers" />
+        app:layout_constraintTop_toTopOf="@+id/emergencyNumbers"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/relevantInformationDisplay"
@@ -108,6 +109,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/extraRelevantInfo"
         app:layout_constraintStart_toStartOf="@+id/extraRelevantInfo"
-        app:layout_constraintTop_toTopOf="@+id/extraRelevantInfo" />
+        app:layout_constraintTop_toTopOf="@+id/extraRelevantInfo"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

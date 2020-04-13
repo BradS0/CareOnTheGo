@@ -218,7 +218,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public ArrayList<String> getPatientInfoDetails(String patientName) {
         patientInfoDetails = new ArrayList<String>();
-        String[] splitString = patientName.split(" ");
+        String[] splitString = patientName.split(" "); //TALK ABOUT THIS FIX
         SQLiteDatabase db = this.getWritableDatabase();
         String selectEmergencyDetails = "SELECT " +PATIENTINFO_COL8+ " FROM " + TABLE_PATIENTINFO+ " WHERE " + USERINFO_COL2 + "= '" +splitString[0]+ "'";
         String selectRelevantInfo = "SELECT " +PATIENTINFO_COL7+ " FROM " + TABLE_PATIENTINFO+ " WHERE " + USERINFO_COL2 + "= '" +splitString[0]+ "'";
