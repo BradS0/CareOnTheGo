@@ -1,5 +1,6 @@
 package com.example.careonthego.ui;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -31,6 +33,7 @@ public class patientInfoFragment extends Fragment {
         //Constructor
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         db = new DatabaseHelper(getContext());
@@ -47,10 +50,12 @@ public class patientInfoFragment extends Fragment {
         patientSpinner = (Spinner)v.findViewById(R.id.patientSpinner);
         loadSpinnerChoices();
         patientSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //On selection of spinner item
                 String patientLabel = parent.getItemAtPosition(position).toString();
+
                 Toast.makeText(parent.getContext(), "You selected: " + patientLabel,
                         Toast.LENGTH_LONG).show();
                 ArrayList<String> fetchedData = db.getPatientInfoDetails(patientLabel);
@@ -76,6 +81,7 @@ public class patientInfoFragment extends Fragment {
         return v;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void loadSpinnerChoices() {
         //Fetching Spinner Elements
         List<String> patientNames = db.getPatientLabels();
@@ -98,6 +104,7 @@ public class patientInfoFragment extends Fragment {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
 
 
 }

@@ -1,5 +1,6 @@
 package com.example.careonthego.ui;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -80,6 +82,7 @@ public class feedbackFragment extends Fragment {
     public void addFeedbackData() {
         submitFeedbackBtn.setOnClickListener(
                 new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                     @Override
                     public void onClick(View v) {
                         boolean feedbackInserted = db.insertFeedbackData(type,
@@ -102,8 +105,6 @@ public class feedbackFragment extends Fragment {
     private void spinnerCheck(Spinner spinner) {
 
     }
-
-
 
     public void loadFragment(Fragment fragment) {
         // For loading fragments
