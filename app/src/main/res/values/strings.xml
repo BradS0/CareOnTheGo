@@ -40,6 +40,13 @@
     <string name="table_title">Medication Name: </string>
     <string name="table_quantity">Medication Quantity: </string>
     <string name="title_medManagement">Medication</string>
+    <string name="medNotes">Extra Medication Notes:</string>
+    <string name="newMedButton">Add New Medication</string>
+    <string name="newMedNoteButton"> Add Medication Notes</string>
+
+    <string name="addNewMedPrompt">Please enter the new medication information below:</string>
+
+    <string name="notePrompt"> Please update your notes here...</string>
 
     <string name="feedback_prompt">Please provide some feedback so we can improve this application in the future...</string>
     <string name="feedback_or_report">Leave feedback / Report a problem</string>
@@ -52,9 +59,8 @@
 
     <string name="bugPrompt">Please provide some details that explain your bug / problem...</string>
     <string-array name="bug_array">
-        <item >Report a problem / bug</item>
-        <item >Leave feedback</item>
+        <item>Report a problem / bug</item>
+        <item>Leave feedback</item>
     </string-array>
-
 
 </resources>

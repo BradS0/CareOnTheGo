@@ -62,11 +62,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String MEDICATION_COL2 = "MEDICATIONNAME";
     public static final String MEDICATION_COL3 = "MEDICATIONQUANTITY";
 
-    String fetchedDetails, fetchedInfo, medName, selectEmergencyDetails, selectRelevantInfo, fetchedMedInfo, labelQuery;
-    ArrayList<String> patientInfoDetails;
-    ArrayList<String> medicationInfo;
-    Cursor emergencyDetailsCursor, relevantInfoCursor, medInfoCursor, fetchedPatientInfoCursor;
-    Integer patientInfoId;
+    String fetchedDetails;
+    String medQuantString;
+    String medNotesQuery;
+    String fetchedInfo;
+    String selectEmergencyDetails;
+    String selectRelevantInfo;
+    String fetchedMedNameInfo;
+    String labelQuery;
+    String testMed;
+    String medQuantQuery;
+    String fetchedMedNotes;
+    int retrievedMedID;
+    Integer fetchedMedQuantInfo;
+    ArrayList<String> patientInfoDetails, medicationInfo;
+    ArrayList<Integer> medicationQuantInfo;
+    Cursor emergencyDetailsCursor, relevantInfoCursor, medInfoCursor, fetchedPatientInfoCursor, medQuantCursor, medNotesCursor;
+    Integer patientInfoId, relatedPatientID;
 
 
     //Default Values for Patient Info Table
@@ -157,7 +169,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String patientMedD1 = "(2, 4, 'Allergic to ibuprofen')";
         String patientMedD2 = "(3, 1, 'Allergic to paracetamol')";
-        String patientMedD3 = "(1, 3, 'Allergic to  warfarin')";
+        String patientMedD3 = "(1, 3, 'Allergic to warfarin')";
         String patientMedD4 = "(4, 2, 'Allergic to antihystamines')";
 
         String medicationD1 = "('Warfarin', 12)";
@@ -206,7 +218,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
         db.close();
     }
-
+    // INSERT METHODS CAN BE MADE INTO ONE METHOD TO STOP DUPLICATION.
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public boolean insertPatientData(String firstName, String surname, Integer age, String address,
                                      String extraNotes, String emergencyNumbers) {
@@ -229,6 +241,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public boolean insertNewMedication(String patientName, String medicationName, Integer medicationQuantity) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.setForeignKeyConstraintsEnabled(true);
+
+        ContentValues newMedicationValues = new ContentValues();
+        newMedicationValues.put(MEDICATION_COL2, medicationName);
+        newMedicationValues.put(MEDICATION_COL3, medicationQuantity);
+        long newMedResult = db.insert(TABLE_MEDICATION, null, newMedicationValues);
+        insertMedicationRelation(patientName, medicationName);
+        if (newMedResult == -1) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public boolean insertMedicationRelation(String patientName, String medicationName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.setForeignKeyConstraintsEnabled(true);
+        relatedPatientID = getPatientInfoID(patientName);
+        String medicationInfoID = "SELECT " + PATIENTMED_COL3 + " FROM " + TABLE_MEDICATION + " WHERE " + MEDICATION_COL2 + "= '" + medicationName + "';";
+        Cursor medicationIdCursor = db.rawQuery(medicationInfoID, null);
+
+        if (medicationIdCursor != null && medicationIdCursor.getCount() > 0) {
+            medicationIdCursor.moveToFirst();
+            do {
+                retrievedMedID = medicationIdCursor.getInt(0);
+            } while (medicationIdCursor.moveToNext());
+        }
+        medicationIdCursor.close();
+
+        ContentValues newRelationValues = new ContentValues();
+        newRelationValues.put(PATIENTMED_COL2, patientInfoId);
+        newRelationValues.put(PATIENTMED_COL3, retrievedMedID);
+        long relationUpdateCheck = db.insert(TABLE_PATIENTMED, null, newRelationValues);
+        db.close();
+        if (relationUpdateCheck == -1) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+    //HERE
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN) // needs to add the user that added the feedback.
     public boolean insertFeedbackData(Boolean type, String feedback, Float rating) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.setForeignKeyConstraintsEnabled(true);
@@ -304,20 +365,56 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         medicationInfo = new ArrayList<String>();
         SQLiteDatabase db = this.getWritableDatabase();
         db.setForeignKeyConstraintsEnabled(true);
-        medName = "SELECT " +TABLE_MEDICATION+"."+MEDICATION_COL2+","+TABLE_MEDICATION+"."+MEDICATION_COL3+" FROM "+TABLE_MEDICATION+" INNER JOIN "+TABLE_MEDICATION+" ON "+TABLE_MEDICATION+"."+PATIENTMED_COL3+"="+TABLE_PATIENTMED+"."+PATIENTMED_COL3+" WHERE "+TABLE_PATIENTMED+"."+PATIENTMED_COL2+"="+patientInfoID+";";
+        testMed = "select medication_table.MEDICATIONNAME from patientMed_table Inner join medication_table on medication_table.MEDICATIONID = patientMed_table.MEDICATIONID where patientMed_table.PATIENTINFOID ="+patientInfoID+";";
+        // medName = "SELECT " +TABLE_MEDICATION+"."+MEDICATION_COL2+","+TABLE_MEDICATION+"."+MEDICATION_COL3+" FROM "+TABLE_MEDICATION+" INNER JOIN "+TABLE_MEDICATION+" ON "+TABLE_MEDICATION+"."+PATIENTMED_COL3+"="+TABLE_PATIENTMED+"."+PATIENTMED_COL3+" WHERE "+TABLE_PATIENTMED+"."+PATIENTMED_COL2+"="+patientInfoID+";";
+        medQuantQuery = "select medication_table.MEDICATIONQUANTITY from patientMed_table Inner join medication_table on medication_table.MEDICATIONID = patientMed_table.MEDICATIONID where patientMed_table.PATIENTINFOID ="+patientInfoID+";";
         //TO-DO: MEDICATION SQL IS HERE, COULD BE SYNTAX, LOOK AT THIS WHEN YOU'RE NOT SLEEP DEPRIVED.
-        medInfoCursor = db.rawQuery(medName, null);
+        medInfoCursor = db.rawQuery(testMed, null);
+        medQuantCursor = db.rawQuery(medQuantQuery, null);
 
-        if (medInfoCursor!=null && medInfoCursor.getCount()>0){
+        if (medInfoCursor!=null && medInfoCursor.getCount()>0 && medQuantCursor!=null && medQuantCursor.getCount()>0){
             medInfoCursor.moveToFirst();
+            medQuantCursor.moveToFirst();
             do{
-                fetchedMedInfo = medInfoCursor.getString(0);
-                medicationInfo.add(fetchedMedInfo);
-            }while(medInfoCursor.moveToNext());
+                fetchedMedNameInfo = medInfoCursor.getString(0);
+                fetchedMedQuantInfo = medQuantCursor.getInt(0);
+                medQuantString = fetchedMedQuantInfo.toString();
+                medicationInfo.add(fetchedMedNameInfo);
+                medicationInfo.add(medQuantString);
+            }while(medInfoCursor.moveToNext() && medQuantCursor.moveToNext());
         }
+/*      // Removed Code (Caused Error)
+        if (medQuantCursor!=null && medQuantCursor.getCount()>0){
+            medQuantCursor.moveToFirst();
+            do{
+                fetchedMedQuantInfo = medQuantCursor.getInt(0);
+                medQuantString = fetchedMedQuantInfo.toString();
+                medicationInfo.add(medQuantString);
+            }while(medQuantCursor.moveToNext());
+        }
+*/
+
         medInfoCursor.close();
+        medQuantCursor.close();
         db.close();
         return medicationInfo;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public String getMedicationNotes(Integer patientInfoId){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.setForeignKeyConstraintsEnabled(true);
+        medNotesQuery = "SELECT " +PATIENTMED_COL4+ " FROM " +TABLE_PATIENTMED+ " WHERE " +PATIENTMED_COL2+ "= " +patientInfoId+";";
+        medNotesCursor = db.rawQuery(medNotesQuery, null);
+
+        //NOTE TO SELF: IF YOU GET A CHANCE TO CHANGE THESE FUNCTIONS THAT USE THIS SAME IF STATEMENT AND SOMEHOW SAVE ON DUPLICATED CODE THAT WOULD BE GREAT BUT IS NOT ESSENTIAL IF NOT ENOUGH TIME.
+        if (medNotesCursor!=null && medNotesCursor.getCount()>0){
+            medNotesCursor.moveToFirst();
+            do{
+                fetchedMedNotes = medNotesCursor.getString(0);
+            }while(medNotesCursor.moveToNext());
+        }
+        return fetchedMedNotes;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -335,7 +432,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (fetchedPatientInfoCursor.moveToNext());
         }
         fetchedPatientInfoCursor.close();
-        db.close();
         return patientInfoId;
     }
 

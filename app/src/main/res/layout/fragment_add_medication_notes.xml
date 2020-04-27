@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.addNewMedicationFragment">
+
+
+    <Spinner
+        android:id="@+id/medNotesNameSpinner"
+        android:layout_width="172dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="44dp"
+        android:spinnerMode="dialog"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.066"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newNotePrompt"></Spinner>
+
+    <Spinner
+        android:id="@+id/medNotesMedSpinner"
+        android:layout_width="172dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="44dp"
+        android:spinnerMode="dialog"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.933"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newNotePrompt"></Spinner>
+
+    <TextView
+        android:id="@+id/newNotePrompt"
+        android:layout_width="393dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/addNewMedPrompt"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/addNewNoteSubmit"
+        android:layout_width="79dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/feedback_submit"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/medNoteInput" />
+
+    <EditText
+        android:id="@+id/medNoteInput"
+        android:layout_width="379dp"
+        android:layout_height="141dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/box_back"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="@string/notePrompt"
+        android:inputType="textMultiLine"
+        android:paddingLeft="3pt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/medNotesNameSpinner" />
+
+    <TextView
+        android:id="@+id/notesPName"
+        android:layout_width="169dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:text="@string/patient_name"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/medNotesNameSpinner"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/notesMedName"
+        android:layout_width="169dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center"
+        android:text="@string/table_title"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/medNotesMedSpinner"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

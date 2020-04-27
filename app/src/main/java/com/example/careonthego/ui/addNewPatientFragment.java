@@ -1,5 +1,6 @@
 package com.example.careonthego.ui;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.example.careonthego.DatabaseHelper;
@@ -48,6 +50,7 @@ public class addNewPatientFragment extends Fragment {
     public void addPatientData() {
         submitPatientDataBtn.setOnClickListener(
                 new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                     @Override
                     public void onClick(View v) {
                         convertAge = editAge.getText().toString();

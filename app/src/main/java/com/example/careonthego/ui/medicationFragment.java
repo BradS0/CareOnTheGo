@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.careonthego.DatabaseHelper;
 import com.example.careonthego.R;
@@ -28,7 +30,13 @@ public class medicationFragment extends Fragment {
 
     Spinner medicationSpinner;
     DatabaseHelper db;
+    TableLayout tableBack;
+    private TableRow row1, titleRow;
+    TextView med1, med2, extraMedNotesDisplay, tableMedTitle, tableMedQuant;
+    String medPatientLabel, medExtraNotes;
+    Integer medPatientInfoId, boxSize;
 
+    Button newMedicationBtn, newMedNotesBtn;
 
     public medicationFragment() {
         //Constructor
@@ -38,16 +46,44 @@ public class medicationFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Database and View Instantiation
         db = new DatabaseHelper(getContext());
         View v =  inflater.inflate(R.layout.fragment_medication_management, container, false);
 
+        //Table Declaration
+        tableBack = (TableLayout)v.findViewById(R.id.tableView);
+
+        //Button Declaration
+        newMedicationBtn = (Button)v.findViewById(R.id.newMedBtn);
+        newMedNotesBtn = (Button)v.findViewById(R.id.newMedNoteBtn);
+        newMedicationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFragment(new addNewMedicationFragment());
+            }
+        });
+        newMedNotesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFragment(new addMedicationNotesFragment());
+            }
+        });
+
+        // Spinner Declaration and listener implementation
         medicationSpinner = (Spinner)v.findViewById(R.id.medicationSpinner);
+        extraMedNotesDisplay = (TextView)v.findViewById(R.id.medNoteDisplay);
+
         loadSpinnerChoices();
         medicationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String medPatientLabel = parent.getItemAtPosition(position).toString();
-                Integer medPatientInfoId = db.getPatientInfoID(medPatientLabel);
+                medPatientLabel = parent.getItemAtPosition(position).toString();
+                medPatientInfoId = db.getPatientInfoID(medPatientLabel);
+                medExtraNotes = db.getMedicationNotes(medPatientInfoId);
+                if (medExtraNotes!=null){
+                    extraMedNotesDisplay.setText(medExtraNotes);
+                }
+                //Find a a way to clear this for people who don't have extra notes. Could make it so that the user has to put n/a if no extra notes.
                 Toast.makeText(parent.getContext(), "You selected: " + medPatientLabel,
                         Toast.LENGTH_LONG).show();
                 ArrayList<String> retrievedMedication = db.getMedicationInfo(medPatientInfoId);
@@ -59,11 +95,6 @@ public class medicationFragment extends Fragment {
 
             }
         });
-        // RecyclerView recyclerMedication = (RecyclerView) v.findViewById(R.id.recyclerView);
-        // GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
-        // recyclerMedication.setLayoutManager(gridLayoutManager);
-
-
         return v;
     }
 
@@ -84,49 +115,69 @@ public class medicationFragment extends Fragment {
     }
 
     public void tableInit(ArrayList<String> retrievedMedication){
-        TableLayout tableBack = (TableLayout) getView().findViewById(R.id.tableView);
-        TableRow tableTitleRow = new TableRow(getContext());
+        //This removes the existing entires upon changing patient selection.
+        tableBack.removeAllViews();
+        //Dynamically creates textviews to be inserted into the table containing the information from the medication table relevant to the patient.
+        titleRow = new TableRow(getContext());
+        tableMedTitle = new TextView(getContext());
+        tableMedQuant = new TextView(getContext());
 
-        TextView titleMed = new TextView(getContext());
-        titleMed.setText(R.string.table_title);
-        titleMed.setTextColor(Color.BLACK);
-        titleMed.setGravity(Gravity.CENTER);
-        titleMed.setPadding(3,0,0,0);
-        tableTitleRow.addView(titleMed);
+        tableMedTitle.setWidth(tableBack.getWidth() / 2);
+        tableMedTitle.setText(R.string.table_title);
+        tableMedTitle.setGravity(Gravity.CENTER);
+        tableMedTitle.setTextSize(18);
+        tableMedTitle.setTextColor(Color.BLACK);
 
-        TextView titleQuant = new TextView(getContext());
-        titleQuant.setText(R.string.table_quantity);
-        titleQuant.setTextColor(Color.BLACK);
-        titleQuant.setGravity(Gravity.CENTER);
-        titleQuant.setPadding(3,0,0,0);
-        tableTitleRow.addView(titleQuant);
+        tableMedQuant.setWidth(tableBack.getWidth() / 2);
+        tableMedQuant.setText(R.string.table_title);
+        tableMedQuant.setGravity(Gravity.CENTER);
+        tableMedQuant.setTextSize(18);
+        tableMedQuant.setTextColor(Color.BLACK);
 
-        int b = 0;
-        while(b < retrievedMedication.size()) {
-            TableRow row1 = new TableRow(getContext());
-            TextView med1 = new TextView(getContext());
-            med1.setText(retrievedMedication.get(b));
+        titleRow.addView(tableMedTitle);
+        titleRow.addView(tableMedQuant);
+        tableBack.addView(titleRow);
+        for(int i = 0; i < retrievedMedication.size(); i++) {
+            row1 = new TableRow(getContext());
+            med1 = new TextView(getContext());
+            med1.setWidth(tableBack.getWidth() / 2);
+            med1.setText(retrievedMedication.get(i));
+            med1.setTextSize(18);
             med1.setTextColor(Color.BLACK);
-            med1.setGravity(Gravity.RIGHT);
-            med1.setPadding(0,0,3,0);
+            med1.setGravity(Gravity.CENTER);
             row1.addView(med1);
 
-            b+=1;
+            Toast.makeText(this.getContext(), "row 1 =  " + med1,
+                    Toast.LENGTH_LONG).show();
+            System.out.println(med1.getText());
 
-            TextView med2 = new TextView(getContext());
-            med2.setText(retrievedMedication.get(b));
+            i++;
+
+            med2 = new TextView(getContext());
+            med2.setWidth(tableBack.getWidth() / 2);
+            med2.setText(retrievedMedication.get(i));
+            med2.setTextSize(18);
             med2.setTextColor(Color.BLACK);
-            med2.setGravity(Gravity.LEFT);
-            med2.setPadding(3,0,0,0);
+            med2.setGravity(Gravity.CENTER);
             row1.addView(med2);
-
-            b+=1;
-        }
-
-        // While loop might not be needed depending on how I can integrate the DBHelper method.
+            tableBack.addView(row1);
+        }// While loop might not be needed depending on how I can integrate the DBHelper method.
     }
 
+    public void loadFragment(Fragment fragment) {
+        // For loading fragments
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 
-
+    public TextView setElement(TextView element) {
+        element.setWidth(boxSize);
+        element.setGravity(Gravity.CENTER);
+        element.setTextSize(18);
+        element.setTextColor(Color.BLACK);
+        return element;
+    }
 
 }

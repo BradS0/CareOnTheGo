@@ -8,10 +8,11 @@
 
     <TextView
         android:id="@+id/patientPrompt"
-        android:layout_width="405dp"
-        android:layout_height="68dp"
+        android:layout_width="415dp"
+        android:layout_height="62dp"
         android:paddingLeft="6dp"
         android:text="@string/p_prompt"
+        android:textColor="#000000"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
