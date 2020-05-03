@@ -2,9 +2,6 @@ package com.example.careonthego;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,16 +9,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.careonthego.ui.feedbackFragment;
+import com.example.careonthego.ui.loginFragment;
 import com.example.careonthego.ui.medicationFragment;
 import com.example.careonthego.ui.patientInfoFragment;
 import com.example.careonthego.ui.timetableFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity implements OnItemSelectedListener{
+public class MainActivity extends AppCompatActivity {
 
     private ActionBar toolbar;
     DatabaseHelper myDb;
-
+    BottomNavigationView navView;
 
 
     @Override
@@ -29,42 +27,15 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = getSupportActionBar();
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        navView.setOnNavigationItemSelectedListener(OnNavigationViewSelectedListenerChoice);
 
-        toolbar.setTitle(("Timetable"));
-        loadFragment(new timetableFragment());
+        loadFragment(new loginFragment());
         myDb = new DatabaseHelper(this);
-
-       // RecyclerView recyclerMedication = (RecyclerView)findViewById(R.id.recyclerView);
-       // \GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
-       // recyclerMedication.setLayoutManager(gridLayoutManager);
+        toolbar = getSupportActionBar();
+        navView = findViewById(R.id.nav_view);
+        navView.setOnNavigationItemSelectedListener(OnNavigationViewSelectedListenerChoice);
+        navView.setVisibility(View.INVISIBLE);
 
     }
-
-    private BottomNavigationView.OnNavigationItemSelectedListener OnNavigationViewSelectedListenerChoice
-            =(item) -> {
-            switch (item.getItemId()) {
-                case R.id.navigation_timetable:
-                    toolbar.setTitle("Timetable");
-                    loadFragment(new timetableFragment());
-                    return true;
-                case R.id.navigation_patientInfo:
-                    toolbar.setTitle("Patient Information");
-                    loadFragment(new patientInfoFragment());
-                    return true;
-                case R.id.navigation_medManagement:
-                    toolbar.setTitle("Medication Management");
-                    loadFragment(new medicationFragment());
-                    return true;
-                case R.id.navigation_feedback:
-                    toolbar.setTitle("Feedback / Report a bug");
-                    loadFragment(new feedbackFragment());
-                    return true;
-            }
-            return false;
-    };
 
     public void loadFragment(Fragment fragment) {
         // For loading fragments
@@ -74,18 +45,34 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
         transaction.commit();
     }
 
+    private BottomNavigationView.OnNavigationItemSelectedListener OnNavigationViewSelectedListenerChoice
+            =(item) -> {
+        switch (item.getItemId()) {
+            case R.id.navigation_timetable:
+                toolbar.setTitle("Timetable");
+                loadFragment(new timetableFragment());
+                return true;
+            case R.id.navigation_patientInfo:
+                toolbar.setTitle("Patient Information");
+                loadFragment(new patientInfoFragment());
+                return true;
+            case R.id.navigation_medManagement:
+                toolbar.setTitle("Medication Management");
+                loadFragment(new medicationFragment());
+                return true;
+            case R.id.navigation_feedback:
+                toolbar.setTitle("Feedback / Report a bug");
+                loadFragment(new feedbackFragment());
+                return true;
+        }
+        return false;
+    };
 
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String text = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+    public void loadNavBar(){
+        navView.setVisibility(View.VISIBLE);
+        toolbar.setTitle(("Timetable"));
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
 }
 
 

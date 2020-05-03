@@ -74,6 +74,8 @@ public class medicationFragment extends Fragment {
         extraMedNotesDisplay = (TextView)v.findViewById(R.id.medNoteDisplay);
 
         loadSpinnerChoices();
+
+        //Find a a way to clear this for people who don't have extra notes. Could make it so that the user has to put n/a if no extra notes.
         medicationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -83,7 +85,7 @@ public class medicationFragment extends Fragment {
                 if (medExtraNotes!=null){
                     extraMedNotesDisplay.setText(medExtraNotes);
                 }
-                //Find a a way to clear this for people who don't have extra notes. Could make it so that the user has to put n/a if no extra notes.
+
                 Toast.makeText(parent.getContext(), "You selected: " + medPatientLabel,
                         Toast.LENGTH_LONG).show();
                 ArrayList<String> retrievedMedication = db.getMedicationInfo(medPatientInfoId);
@@ -146,10 +148,6 @@ public class medicationFragment extends Fragment {
             med1.setTextColor(Color.BLACK);
             med1.setGravity(Gravity.CENTER);
             row1.addView(med1);
-
-            Toast.makeText(this.getContext(), "row 1 =  " + med1,
-                    Toast.LENGTH_LONG).show();
-            System.out.println(med1.getText());
 
             i++;
 

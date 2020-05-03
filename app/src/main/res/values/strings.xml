@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">CareOnTheGo</string>
     <string name="title_timetable">Timetable</string>
+    <string name="task_name_table_title">Task:</string>
+    <string name="task_date_table_title">Date:</string>
+    <string name="task_start_table_title">Start Time:</string>
+    <string name="task_finish_table_title">End Time:</string>
+    <string name="task_information_table_title">Information:</string>
+
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_forgot">Forgot Username / Password?</string>
+
 
     <string name="title_feedback">Feedback</string>
     <string name="patient_name">Patient Name:</string>
@@ -62,5 +72,9 @@
         <item>Report a problem / bug</item>
         <item>Leave feedback</item>
     </string-array>
+
+    <string name="title_activity_login">Login</string>
+    <string name="logged_in_activity">Logged In Activity</string>
+
 
 </resources>

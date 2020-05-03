@@ -42,6 +42,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_TASK = "task_table";
     public static final String TASK_COL1 = "TASKID";
     public static final String TASK_COL3 = "TASKNAME";
+    public static final String TASK_DAY = "TASKDAY";
     public static final String TASK_COL4 = "TASKSTART";
     public static final String TASK_COL5 = "TASKFINISH";
     public static final String TASK_COL6 = "TASKINFO";
@@ -62,7 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String MEDICATION_COL2 = "MEDICATIONNAME";
     public static final String MEDICATION_COL3 = "MEDICATIONQUANTITY";
 
-    String fetchedDetails, patientNameQuery, medicationNameQuery, medicationNoteUpdateQuery, medIdQuery;
+    String fetchedDetails, patientNameQuery, medicationNameQuery, medicationNoteUpdateQuery, medIdQuery, taskQuery, fetchedTasks, usernameCheckQuery;
     String medQuantString;
     String medNotesQuery;
     String fetchedInfo;
@@ -75,16 +76,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     String fetchedMedNotes;
     int retrievedMedID;
     Integer fetchedMedQuantInfo, fetchedMedId;
-    ArrayList<String> patientInfoDetails, medicationInfo, patientNames, medicationNames;
+    ArrayList<String> patientInfoDetails, medicationInfo, patientNames, medicationNames, taskArray;
     ArrayList<Integer> medicationQuantInfo;
-    Cursor emergencyDetailsCursor, relevantInfoCursor, medInfoCursor, fetchedPatientInfoCursor, medQuantCursor, medNotesCursor, patientLabelCursor, medicationLabelCursor, fetchedMedIdCursor;
+    Cursor emergencyDetailsCursor, relevantInfoCursor, medInfoCursor, fetchedPatientInfoCursor, medQuantCursor, medNotesCursor, patientLabelCursor, medicationLabelCursor, fetchedMedIdCursor, taskCursor, usernameCheckCursor, passwordCheckCursor;
     Integer patientInfoId, relatedPatientID;
     long feedbackResult, medNoteUpdateResult;
     SQLiteDatabase db;
 
 
     //Default Values for Patient Info Table
-
 
 
     public DatabaseHelper(@Nullable Context context) {
@@ -96,6 +96,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.setForeignKeyConstraintsEnabled(true);
         super.onConfigure(db);
     }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -122,16 +123,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + USERFEEDBACK_COL2 + " INTEGER, "
                 + USERFEEDBACK_COL3 + " INTEGER, "
                 + USERFEEDBACK_COL4 + " TEXT, "
-                + USERFEEDBACK_COL5 + " TEXT, FOREIGN KEY("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+"("+USER_COL1+"));";
+                + USERFEEDBACK_COL5 + " TEXT, FOREIGN KEY(" + USERFEEDBACK_COL2 + ") REFERENCES " + TABLE_USER + "(" + USER_COL1 + "));";
         db.execSQL(USERFEEDBACK_TABLE_CREATE);
 
         String TASK_TABLE_CREATE = "CREATE TABLE " + TABLE_TASK + " ("
                 + TASK_COL1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + USERFEEDBACK_COL2 + " TEXT NOT NULL, "
+                + USERFEEDBACK_COL2 + " INTEGER NOT NULL, "
                 + TASK_COL3 + " TEXT NOT NULL, "
-                + TASK_COL4 + " TEXT NOT NULL, "
-                + TASK_COL5 + " TEXT NOT NULL, "
-                + TASK_COL6 + " TEXT, FOREIGN KEY("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+"("+USER_COL1+"));";
+                + TASK_DAY + " TEXT NOT NULL,"
+                + TASK_COL4 + " INTEGER NOT NULL, "
+                + TASK_COL5 + " INTEGER NOT NULL, "
+                + TASK_COL6 + " TEXT, FOREIGN KEY(" + USERFEEDBACK_COL2 + ") REFERENCES " + TABLE_USER + "(" + USER_COL1 + "));";
         db.execSQL(TASK_TABLE_CREATE);
 
         String PATIENTINFO_TABLE_CREATE = "CREATE TABLE " + TABLE_PATIENTINFO + " ("
@@ -142,7 +144,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + PATIENTINFO_COL5 + " INTEGER NOT NULL, "
                 + PATIENTINFO_COL6 + " TEXT NOT NULL, "
                 + PATIENTINFO_COL7 + " TEXT, "
-                + PATIENTINFO_COL8 + " TEXT NOT NULL, FOREIGN KEY("+USERFEEDBACK_COL2+") REFERENCES "+TABLE_USER+"("+USER_COL1+"));";
+                + PATIENTINFO_COL8 + " TEXT NOT NULL, FOREIGN KEY(" + USERFEEDBACK_COL2 + ") REFERENCES " + TABLE_USER + "(" + USER_COL1 + "));";
         db.execSQL(PATIENTINFO_TABLE_CREATE);
 
         String MEDICATION_TABLE_CREATE = "CREATE TABLE " + TABLE_MEDICATION + " ("
@@ -155,11 +157,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + PATIENTMED_COL1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + PATIENTMED_COL2 + " INTEGER, "
                 + PATIENTMED_COL3 + " INTEGER, "
-                + PATIENTMED_COL4 + " TEXT, FOREIGN KEY("+PATIENTMED_COL2+") REFERENCES "+TABLE_PATIENTINFO+"("+PATIENTINFO_COL1+"), FOREIGN KEY("+PATIENTMED_COL3+") REFERENCES "+TABLE_MEDICATION+"("+PATIENTMED_COL3+"));";
+                + PATIENTMED_COL4 + " TEXT, FOREIGN KEY(" + PATIENTMED_COL2 + ") REFERENCES " + TABLE_PATIENTINFO + "(" + PATIENTINFO_COL1 + "), FOREIGN KEY(" + PATIENTMED_COL3 + ") REFERENCES " + TABLE_MEDICATION + "(" + PATIENTMED_COL3 + "));";
         db.execSQL(PATIENTMED_TABLE_CREATE);
 
         String userD1 = "('admin', 'admin')";
         String userD2 = "('SmithJ', 'root')";
+        String userD3 = "('SaraJ', 'root')";
+
 
         String userInfoD1 = "(1, 'Bradley', 'Onyett', '07422526869', 'up858239@myport.ac.uk')";
         String userInfoD2 = "(2, 'James', 'Sutton', '07555436891', 'James.Sutton@gmail.com')";
@@ -179,31 +183,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String medicationD3 = "('Salbutamol', 3)";
         String medicationD4 = "('Roacatane', 2)";
 
+        String taskD1 = "(2, 'Morning Visit: Mr. John Smith', 'Monday 12th', '09:00:00', '10:15:00', 'Parking available at patients house.')";
+        String taskD2 = "(2, 'Afternoon Visit: Mrs. Jane Doe', 'Monday 12th', '11:00:00', '12:15:00', 'Nearest parking = 5 minute walk.')";
+        String taskD3 = "(2, 'Hospital Meeting: Care Management', 'Monday 12th', '14:00:00', '16:00:00', 'N/A')";
+        String taskD4 = "(2, 'Evening Visit: Ms. Jennifer Adams', 'Monday 12th', '17:00:00', '19:00:00', 'Parking available at patients house.')";
+        String taskD5 = "(3, 'Morning Visit: Ms. Jennifer Adams', 'Monday 12th', '08:15:00', '09:15:00', 'Use Key safe for entry')";
+        String taskD6 = "(3, 'Morning Visit Mr. Jim Jones', 'Monday 12th', '10:00:00', '11:00:00', 'Parking available at patients house.')";
+        String taskD7 = "(3, 'Afternoon Visit: Mr. John Smith', 'Monday 12th', '14:00:00', '16:00:00', 'Patient has an early dinner during this visit.')";
+        String taskD8 = "(3, 'Evening Visit Mr. Jane Doe', 'Monday 12th', '17:45:00', '19:00:00', 'Patient will sometimes have an early dinner during their afternoon visit.')";
+
         //User default info implementation
-        String USER_DEFAULT_VALUES = "INSERT INTO " +TABLE_USER+ "(" +USER_COL2+ "," +USER_COL3+ ") VALUES " +userD1+ "," +userD2+ ";";
+        String USER_DEFAULT_VALUES = "INSERT INTO " + TABLE_USER + "(" + USER_COL2 + "," + USER_COL3 + ") VALUES " + userD1 + "," + userD2 + "," + userD3 + ";";
         db.execSQL(USER_DEFAULT_VALUES);
 
-        String USERINFO_DEFAULT_VALUES = "INSERT INTO " +TABLE_USERINFO+ "(" +USER_COL1+ "," +USERINFO_COL2+ "," +USERINFO_COL3+ "," +USERINFO_COL4+ "," +USERINFO_COL5+") VALUES " +userInfoD1+ "," +userInfoD2+ ";";
+        String USERINFO_DEFAULT_VALUES = "INSERT INTO " + TABLE_USERINFO + "(" + USER_COL1 + "," + USERINFO_COL2 + "," + USERINFO_COL3 + "," + USERINFO_COL4 + "," + USERINFO_COL5 + ") VALUES " + userInfoD1 + "," + userInfoD2 + ";";
         db.execSQL(USERINFO_DEFAULT_VALUES);
 
-        String PATIENTINFO_DEFAULT_VALUES = "INSERT INTO " + TABLE_PATIENTINFO + "(" +USERFEEDBACK_COL2+ "," +USERINFO_COL2+ "," +USERINFO_COL3 + "," + PATIENTINFO_COL5+ "," +PATIENTINFO_COL6+ "," + PATIENTINFO_COL7 + "," + PATIENTINFO_COL8 + ") VALUES " + patientInfoD1 + "," + patientInfoD2 + "," + patientInfoD3 + "," + patientInfoD4 + ";";
+        String PATIENTINFO_DEFAULT_VALUES = "INSERT INTO " + TABLE_PATIENTINFO + "(" + USERFEEDBACK_COL2 + "," + USERINFO_COL2 + "," + USERINFO_COL3 + "," + PATIENTINFO_COL5 + "," + PATIENTINFO_COL6 + "," + PATIENTINFO_COL7 + "," + PATIENTINFO_COL8 + ") VALUES " + patientInfoD1 + "," + patientInfoD2 + "," + patientInfoD3 + "," + patientInfoD4 + ";";
         db.execSQL(PATIENTINFO_DEFAULT_VALUES);
 
         // Medication default info implementation
-        String MEDICATION_DEFAULT_VALUES = "INSERT INTO " +TABLE_MEDICATION+ "(" +MEDICATION_COL2+ "," +MEDICATION_COL3+ ") VALUES " +medicationD1+ "," +medicationD2+ "," +medicationD3+ "," +medicationD4+ ";";
+        String MEDICATION_DEFAULT_VALUES = "INSERT INTO " + TABLE_MEDICATION + "(" + MEDICATION_COL2 + "," + MEDICATION_COL3 + ") VALUES " + medicationD1 + "," + medicationD2 + "," + medicationD3 + "," + medicationD4 + ";";
         db.execSQL(MEDICATION_DEFAULT_VALUES);
 
         // Patient Medication default info implementation
-        String PATIENTMED_DEFUALT_VALUES = "INSERT INTO " +TABLE_PATIENTMED+ "(" +PATIENTMED_COL2+ "," +PATIENTMED_COL3+ "," +PATIENTMED_COL4+ ") VALUES "+patientMedD1+"," +patientMedD2+ "," +patientMedD3+ "," +patientMedD4+";";
-        //String PATIENTMED_DEFUALT_VALUES = "INSERT INTO "+TABLE_PATIENTMED+"("+PATIENTMED_COL2+","+PATIENTMED_COL3+","+PATIENTMED_COL4+") VALUES"+patientMedD1+","+patientMedD2+","+patientMedD3+","+patientMedD4+";";
-        //String PATIENTMED_DEFAULT_VALUES2 = "INSERT INTO " +TABLE_PATIENTMED+ "(" +PATIENTMED_COL2+ "," +PATIENTMED_COL3+ "," +PATIENTMED_COL4+ ") VALUES " +patientMedD2+";";
-        //String PATIENTMED_DEFAULT_VALUES3 = "INSERT INTO " +TABLE_PATIENTMED+ "(" +PATIENTMED_COL2+ "," +PATIENTMED_COL3+ "," +PATIENTMED_COL4+ ") VALUES " +patientMedD3+";";
-        //String PATIENTMED_DEFAULT_VALUES4 = "INSERT INTO " +TABLE_PATIENTMED+ "(" +PATIENTMED_COL2+ "," +PATIENTMED_COL3+ "," +PATIENTMED_COL4+ ") VALUES " +patientMedD4+";";
-        //String patientMedDTest = "INSERT INTO patientMed_table(PATIENTINFOID, MEDICATIONID, MEDICATIONNOTES) VALUES (3,1,'Allergic to ibuprofen'), (1,3,'Allergic to paracetamol'), (4,2,'Allergic to antihystamines')";
-        db.execSQL(PATIENTMED_DEFUALT_VALUES);
-        //db.execSQL(PATIENTMED_DEFAULT_VALUES2);
-        //db.execSQL(PATIENTMED_DEFAULT_VALUES3);
-        //db.execSQL(PATIENTMED_DEFAULT_VALUES4);
+        String PATIENTMED_DEFAULT_VALUES = "INSERT INTO " + TABLE_PATIENTMED + "(" + PATIENTMED_COL2 + "," + PATIENTMED_COL3 + "," + PATIENTMED_COL4 + ") VALUES " + patientMedD1 + "," + patientMedD2 + "," + patientMedD3 + "," + patientMedD4 + ";";
+        db.execSQL(PATIENTMED_DEFAULT_VALUES);
+
+        String TASK_DEFAULT_VALUES = "INSERT INTO " + TABLE_TASK + "(" + USERFEEDBACK_COL2 + "," + TASK_COL3 + "," + TASK_DAY + "," + TASK_COL4 + "," + TASK_COL5 + "," + TASK_COL6 + ") VALUES " + taskD1 + "," + taskD2 + "," + taskD3 + "," + taskD4 + "," + taskD5 + "," + taskD6 + "," + taskD7 + "," + taskD8 + ";";
+        db.execSQL(TASK_DEFAULT_VALUES);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -220,6 +228,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
         db.close();
     }
+
     // INSERT METHODS CAN BE MADE INTO ONE METHOD TO STOP DUPLICATION.
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public boolean insertPatientData(String firstName, String surname, Integer age, String address,
@@ -235,7 +244,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         patientValues.put(PATIENTINFO_COL8, emergencyNumbers);
         long patientResult = db.insert(TABLE_PATIENTINFO, null, patientValues);
         db.close();
-        if (patientResult == -1){
+        if (patientResult == -1) {
             return false;
         } else {
             return true;
@@ -291,7 +300,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //HERE
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN) // needs to add the user that added the feedback.
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    // needs to add the user that added the feedback.
     public boolean insertFeedbackData(Boolean type, String feedback, Float rating) {
         db = this.getWritableDatabase();
         db.setForeignKeyConstraintsEnabled(true);
@@ -301,7 +311,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         feedbackValues.put(USERFEEDBACK_COL5, rating);
         feedbackResult = db.insert(TABLE_USERFEEDBACK, null, feedbackValues);
         db.close();
-        if (feedbackResult == -1){
+        if (feedbackResult == -1) {
             return false;
         } else {
             return true;
@@ -315,10 +325,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.setForeignKeyConstraintsEnabled(true);
         ContentValues medNoteValues = new ContentValues();
         medNoteValues.put(PATIENTMED_COL4, medicationNotes);
-        medicationNoteUpdateQuery = " "+PATIENTMED_COL3+ " = " +medicationId+";";
+        medicationNoteUpdateQuery = " " + PATIENTMED_COL3 + " = " + medicationId + ";";
         medNoteUpdateResult = db.update(TABLE_PATIENTMED, medNoteValues, medicationNoteUpdateQuery, null);
         db.close();
-        if (medNoteUpdateResult == -1){
+        if (medNoteUpdateResult == -1) {
             return false;
         } else {
             return true;
@@ -332,8 +342,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         patientNames = new ArrayList<String>();
         patientNameQuery = "SELECT " + USERINFO_COL2 + "||" + "' '" + "||" + USERINFO_COL3 + " FROM " + TABLE_PATIENTINFO;
         patientLabelCursor = db.rawQuery(patientNameQuery, null);
-        if(patientLabelCursor.moveToFirst()){
-            do{
+        if (patientLabelCursor.moveToFirst()) {
+            do {
                 patientNames.add(patientLabelCursor.getString(0));
             } while (patientLabelCursor.moveToNext());
         }
@@ -345,15 +355,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public List<String> getMedicationLabels(Integer patientInfoId){
+    public List<String> getMedicationLabels(Integer patientInfoId) {
         medicationNames = new ArrayList<String>();
         db = this.getWritableDatabase();
         db.setForeignKeyConstraintsEnabled(true);
-        medicationNameQuery = "select medication_table.MEDICATIONNAME from patientMed_table Inner join medication_table on medication_table.MEDICATIONID = patientMed_table.MEDICATIONID where patientMed_table.PATIENTINFOID ="+patientInfoId+";";
+        medicationNameQuery = "select medication_table.MEDICATIONNAME from patientMed_table Inner join medication_table on medication_table.MEDICATIONID = patientMed_table.MEDICATIONID where patientMed_table.PATIENTINFOID =" + patientInfoId + ";";
         medicationLabelCursor = db.rawQuery(medicationNameQuery, null);
 
-        if(medicationLabelCursor.moveToFirst()){
-            do{
+        if (medicationLabelCursor.moveToFirst()) {
+            do {
                 medicationNames.add(medicationLabelCursor.getString(0));
             } while (medicationLabelCursor.moveToNext());
         }
@@ -369,23 +379,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String[] splitString = patientName.split(" "); //TALK ABOUT THIS FIX
         db = this.getWritableDatabase();
         db.setForeignKeyConstraintsEnabled(true);
-        selectEmergencyDetails = "SELECT " +PATIENTINFO_COL8+ " FROM " + TABLE_PATIENTINFO+ " WHERE " + USERINFO_COL2 + "= '" +splitString[0]+ "'";
-        selectRelevantInfo = "SELECT " +PATIENTINFO_COL7+ " FROM " + TABLE_PATIENTINFO+ " WHERE " + USERINFO_COL2 + "= '" +splitString[0]+ "'";
+        selectEmergencyDetails = "SELECT " + PATIENTINFO_COL8 + " FROM " + TABLE_PATIENTINFO + " WHERE " + USERINFO_COL2 + "= '" + splitString[0] + "'";
+        selectRelevantInfo = "SELECT " + PATIENTINFO_COL7 + " FROM " + TABLE_PATIENTINFO + " WHERE " + USERINFO_COL2 + "= '" + splitString[0] + "'";
         emergencyDetailsCursor = db.rawQuery(selectEmergencyDetails, null);
         relevantInfoCursor = db.rawQuery(selectRelevantInfo, null);
 
-        if(relevantInfoCursor!=null && relevantInfoCursor.getCount()>0){
+        if (relevantInfoCursor != null && relevantInfoCursor.getCount() > 0) {
             relevantInfoCursor.moveToFirst();
-            do{
+            do {
                 fetchedInfo = relevantInfoCursor.getString(0);
-            }while (relevantInfoCursor.moveToNext());
+            } while (relevantInfoCursor.moveToNext());
         }
 
-        if(emergencyDetailsCursor!=null && emergencyDetailsCursor.getCount()>0){
+        if (emergencyDetailsCursor != null && emergencyDetailsCursor.getCount() > 0) {
             emergencyDetailsCursor.moveToFirst();
-            do{
+            do {
                 fetchedDetails = emergencyDetailsCursor.getString(0);
-            }while (emergencyDetailsCursor.moveToNext());
+            } while (emergencyDetailsCursor.moveToNext());
         }
         emergencyDetailsCursor.close();
         db.close();
@@ -402,23 +412,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         medicationInfo = new ArrayList<String>();
         db = this.getWritableDatabase();
         db.setForeignKeyConstraintsEnabled(true);
-        testMed = "select medication_table.MEDICATIONNAME from patientMed_table Inner join medication_table on medication_table.MEDICATIONID = patientMed_table.MEDICATIONID where patientMed_table.PATIENTINFOID ="+patientInfoID+";";
+        testMed = "select medication_table.MEDICATIONNAME from patientMed_table Inner join medication_table on medication_table.MEDICATIONID = patientMed_table.MEDICATIONID where patientMed_table.PATIENTINFOID =" + patientInfoID + ";";
         // medName = "SELECT " +TABLE_MEDICATION+"."+MEDICATION_COL2+","+TABLE_MEDICATION+"."+MEDICATION_COL3+" FROM "+TABLE_MEDICATION+" INNER JOIN "+TABLE_MEDICATION+" ON "+TABLE_MEDICATION+"."+PATIENTMED_COL3+"="+TABLE_PATIENTMED+"."+PATIENTMED_COL3+" WHERE "+TABLE_PATIENTMED+"."+PATIENTMED_COL2+"="+patientInfoID+";";
-        medQuantQuery = "select medication_table.MEDICATIONQUANTITY from patientMed_table Inner join medication_table on medication_table.MEDICATIONID = patientMed_table.MEDICATIONID where patientMed_table.PATIENTINFOID ="+patientInfoID+";";
-        //TO-DO: MEDICATION SQL IS HERE, COULD BE SYNTAX, LOOK AT THIS WHEN YOU'RE NOT SLEEP DEPRIVED.
+        medQuantQuery = "select medication_table.MEDICATIONQUANTITY from patientMed_table Inner join medication_table on medication_table.MEDICATIONID = patientMed_table.MEDICATIONID where patientMed_table.PATIENTINFOID =" + patientInfoID + ";";
         medInfoCursor = db.rawQuery(testMed, null);
         medQuantCursor = db.rawQuery(medQuantQuery, null);
 
-        if (medInfoCursor!=null && medInfoCursor.getCount()>0 && medQuantCursor!=null && medQuantCursor.getCount()>0){
+        if (medInfoCursor != null && medInfoCursor.getCount() > 0 && medQuantCursor != null && medQuantCursor.getCount() > 0) {
             medInfoCursor.moveToFirst();
             medQuantCursor.moveToFirst();
-            do{
+            do {
                 fetchedMedNameInfo = medInfoCursor.getString(0);
                 fetchedMedQuantInfo = medQuantCursor.getInt(0);
                 medQuantString = fetchedMedQuantInfo.toString();
                 medicationInfo.add(fetchedMedNameInfo);
                 medicationInfo.add(medQuantString);
-            }while(medInfoCursor.moveToNext() && medQuantCursor.moveToNext());
+            } while (medInfoCursor.moveToNext() && medQuantCursor.moveToNext());
         }
 /*      // Removed Code (Caused Error)
         if (medQuantCursor!=null && medQuantCursor.getCount()>0){
@@ -437,19 +446,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return medicationInfo;
     }
 
+    //NOTE TO SELF: IF YOU GET A CHANCE TO CHANGE THESE FUNCTIONS THAT USE THIS SAME IF STATEMENT AND SOMEHOW SAVE ON DUPLICATED CODE THAT WOULD BE GREAT BUT IS NOT ESSENTIAL IF NOT ENOUGH TIME.
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public String getMedicationNotes(Integer patientInfoId){
+    public String getMedicationNotes(Integer patientInfoId) {
         db = this.getWritableDatabase();
         db.setForeignKeyConstraintsEnabled(true);
-        medNotesQuery = "SELECT " +PATIENTMED_COL4+ " FROM " +TABLE_PATIENTMED+ " WHERE " +PATIENTMED_COL2+ "= " +patientInfoId+";";
+        medNotesQuery = "SELECT " + PATIENTMED_COL4 + " FROM " + TABLE_PATIENTMED + " WHERE " + PATIENTMED_COL2 + "= " + patientInfoId + ";";
         medNotesCursor = db.rawQuery(medNotesQuery, null);
 
-        //NOTE TO SELF: IF YOU GET A CHANCE TO CHANGE THESE FUNCTIONS THAT USE THIS SAME IF STATEMENT AND SOMEHOW SAVE ON DUPLICATED CODE THAT WOULD BE GREAT BUT IS NOT ESSENTIAL IF NOT ENOUGH TIME.
-        if (medNotesCursor!=null && medNotesCursor.getCount()>0){
+
+        if (medNotesCursor != null && medNotesCursor.getCount() > 0) {
             medNotesCursor.moveToFirst();
-            do{
+            do {
                 fetchedMedNotes = medNotesCursor.getString(0);
-            }while(medNotesCursor.moveToNext());
+            } while (medNotesCursor.moveToNext());
         }
         return fetchedMedNotes;
     }
@@ -477,13 +487,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public int getMedicationId(String medicationName) {
         db = this.getWritableDatabase();
         db.setForeignKeyConstraintsEnabled(true);
-        medIdQuery = "SELECT " +PATIENTMED_COL3+ " FROM "+TABLE_MEDICATION+ " WHERE " +MEDICATION_COL2+ " = '" +medicationName+"';";
+        medIdQuery = "SELECT " + PATIENTMED_COL3 + " FROM " + TABLE_MEDICATION + " WHERE " + MEDICATION_COL2 + " = '" + medicationName + "';";
         fetchedMedIdCursor = db.rawQuery(medIdQuery, null);
 
         if (fetchedMedIdCursor != null && fetchedMedIdCursor.getCount() > 0) {
             fetchedMedIdCursor.moveToFirst();
             do {
-                fetchedMedId =fetchedMedIdCursor.getInt(0);
+                fetchedMedId = fetchedMedIdCursor.getInt(0);
             } while (fetchedMedIdCursor.moveToNext());
         }
         fetchedMedIdCursor.close();
@@ -491,4 +501,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return fetchedMedId;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public ArrayList<String> getTaskInfo(Integer userId, String dayOfWeek) {
+        taskArray = new ArrayList<String>();
+        db = this.getWritableDatabase();
+        db.setForeignKeyConstraintsEnabled(true);
+        taskQuery = "SELECT " + TASK_COL3 + "," + TASK_DAY + "," + TASK_COL4 + "," + TASK_COL5 + "," + TASK_COL6 + " FROM " + TABLE_TASK + " WHERE " + USERFEEDBACK_COL2 + " = " + userId + " AND " + TASK_DAY + " = " + dayOfWeek + " ORDER BY" + TASK_COL4 + " ASC;";
+        taskCursor = db.rawQuery(taskQuery, null);
+
+        if (taskCursor != null && taskCursor.getCount() > 0) {
+            taskCursor.moveToFirst();
+            do {
+                fetchedTasks = taskCursor.getString(0);
+                taskArray.add(fetchedTasks);
+            } while (taskCursor.moveToNext());
+        }
+        return taskArray;
+    }
+
+    public boolean checkLoginCredentials(String username, String password){
+        db = this.getReadableDatabase();
+        usernameCheckQuery = "SELECT * FROM " +TABLE_USER+ " WHERE " +USER_COL2+ " = '" +username+ "' AND " +USER_COL3+ " = '" +password+"';";
+        usernameCheckCursor = db.rawQuery(usernameCheckQuery, null);
+        if(usernameCheckCursor.getCount()>0){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 }
+

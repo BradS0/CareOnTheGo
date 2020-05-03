@@ -11,52 +11,41 @@
         android:layout_height="210dp"
         android:layout_marginStart="41dp"
         android:layout_marginLeft="41dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="41dp"
         android:layout_marginRight="41dp"
         android:background="@drawable/box_back"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.46"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/medicationSpinner">
 
         <TableRow
             android:id="@+id/tableTitleRow"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="91dp" />
     </TableLayout>
-
-    <TextView
-        android:id="@+id/text_medication_management"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
         android:id="@+id/medicationSpinner"
         android:layout_width="172dp"
         android:layout_height="32dp"
+        android:layout_marginTop="30dp"
         android:prompt="@string/patient_name"
         android:spinnerMode="dialog"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/text_medication_management"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/text_medication_management" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/extraMedNotes"
-        android:layout_width="378dp"
-        android:layout_height="126dp"
+        android:layout_width="374dp"
+        android:layout_height="151dp"
         android:layout_marginStart="41dp"
         android:layout_marginLeft="41dp"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="52dp"
         android:layout_marginEnd="41dp"
         android:layout_marginRight="41dp"
         android:background="@drawable/box_back"
@@ -65,16 +54,17 @@
         android:textColor="#000000"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.53"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tableView" />
 
     <TextView
         android:id="@+id/medNoteDisplay"
-        android:layout_width="352dp"
-        android:layout_height="82dp"
+        android:layout_width="351dp"
+        android:layout_height="108dp"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:textColor="#000000"
@@ -100,7 +90,7 @@
         android:id="@+id/newMedNoteBtn"
         android:layout_width="175dp"
         android:layout_height="30dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="116dp"
         android:layout_marginRight="116dp"
         android:background="@color/colorPrimary"
