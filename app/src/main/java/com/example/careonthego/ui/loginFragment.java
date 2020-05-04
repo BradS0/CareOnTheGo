@@ -42,6 +42,7 @@ public class loginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 username = usernameInput.getText().toString();
+                ((MainActivity)getActivity()).setUsername(username);
                 password = passwordInput.getText().toString();
                 credentialCheck = db.checkLoginCredentials(username, password);
                 if (credentialCheck!=null && credentialCheck == true){
@@ -53,7 +54,6 @@ public class loginFragment extends Fragment {
                 }
             }
         });
-
         return v;
     }
 

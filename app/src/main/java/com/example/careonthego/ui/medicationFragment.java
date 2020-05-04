@@ -117,7 +117,7 @@ public class medicationFragment extends Fragment {
     }
 
     public void tableInit(ArrayList<String> retrievedMedication){
-        //This removes the existing entires upon changing patient selection.
+        //This removes the existing entries upon changing patient selection.
         tableBack.removeAllViews();
         //Dynamically creates textviews to be inserted into the table containing the information from the medication table relevant to the patient.
         titleRow = new TableRow(getContext());
@@ -159,7 +159,7 @@ public class medicationFragment extends Fragment {
             med2.setGravity(Gravity.CENTER);
             row1.addView(med2);
             tableBack.addView(row1);
-        }// While loop might not be needed depending on how I can integrate the DBHelper method.
+        }
     }
 
     public void loadFragment(Fragment fragment) {

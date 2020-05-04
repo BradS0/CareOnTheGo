@@ -63,7 +63,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String MEDICATION_COL2 = "MEDICATIONNAME";
     public static final String MEDICATION_COL3 = "MEDICATIONQUANTITY";
 
-    String fetchedDetails, patientNameQuery, medicationNameQuery, medicationNoteUpdateQuery, medIdQuery, taskQuery, fetchedTasks, usernameCheckQuery;
+    String fetchedDetails;
+    String patientNameQuery;
+    String medicationNameQuery;
+    String medicationNoteUpdateQuery;
+    String medIdQuery;
+    String usernameCheckQuery;
+    String userIdQuery;
+    String taskQuery1;
+    String taskQuery2;
+    String taskQuery3;
+    String taskQuery4;
+    String taskQuery5;
+    String fetchedTaskName;
+    String fetchedTaskDay;
+    Integer fetchedTaskStart;
+    Integer fetchedTaskFinish;
+    String fetchedTaskInfo;
     String medQuantString;
     String medNotesQuery;
     String fetchedInfo;
@@ -74,13 +90,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     String testMed;
     String medQuantQuery;
     String fetchedMedNotes;
+    String fetchedTaskStartConversion, fetchedTaskFinishConversion;
     int retrievedMedID;
     Integer fetchedMedQuantInfo, fetchedMedId;
     ArrayList<String> patientInfoDetails, medicationInfo, patientNames, medicationNames, taskArray;
     ArrayList<Integer> medicationQuantInfo;
-    Cursor emergencyDetailsCursor, relevantInfoCursor, medInfoCursor, fetchedPatientInfoCursor, medQuantCursor, medNotesCursor, patientLabelCursor, medicationLabelCursor, fetchedMedIdCursor, taskCursor, usernameCheckCursor, passwordCheckCursor;
-    Integer patientInfoId, relatedPatientID;
-    long feedbackResult, medNoteUpdateResult;
+    Cursor emergencyDetailsCursor, relevantInfoCursor, medInfoCursor, fetchedPatientInfoCursor, medQuantCursor, medNotesCursor, patientLabelCursor, medicationLabelCursor, fetchedMedIdCursor, taskNameCursor, taskDayCursor, taskStartCursor, taskFinishCursor, taskInfoCursor, usernameCheckCursor, passwordCheckCursor, userIdCursor;
+    Integer patientInfoId, relatedPatientID, fetchedUserId;
+    long feedbackResult, medNoteUpdateResult, noteInputResult;
     SQLiteDatabase db;
 
 
@@ -183,14 +200,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String medicationD3 = "('Salbutamol', 3)";
         String medicationD4 = "('Roacatane', 2)";
 
-        String taskD1 = "(2, 'Morning Visit: Mr. John Smith', 'Monday 12th', '09:00:00', '10:15:00', 'Parking available at patients house.')";
-        String taskD2 = "(2, 'Afternoon Visit: Mrs. Jane Doe', 'Monday 12th', '11:00:00', '12:15:00', 'Nearest parking = 5 minute walk.')";
-        String taskD3 = "(2, 'Hospital Meeting: Care Management', 'Monday 12th', '14:00:00', '16:00:00', 'N/A')";
-        String taskD4 = "(2, 'Evening Visit: Ms. Jennifer Adams', 'Monday 12th', '17:00:00', '19:00:00', 'Parking available at patients house.')";
-        String taskD5 = "(3, 'Morning Visit: Ms. Jennifer Adams', 'Monday 12th', '08:15:00', '09:15:00', 'Use Key safe for entry')";
-        String taskD6 = "(3, 'Morning Visit Mr. Jim Jones', 'Monday 12th', '10:00:00', '11:00:00', 'Parking available at patients house.')";
-        String taskD7 = "(3, 'Afternoon Visit: Mr. John Smith', 'Monday 12th', '14:00:00', '16:00:00', 'Patient has an early dinner during this visit.')";
-        String taskD8 = "(3, 'Evening Visit Mr. Jane Doe', 'Monday 12th', '17:45:00', '19:00:00', 'Patient will sometimes have an early dinner during their afternoon visit.')";
+        String taskD1 = "(2, 'Morning Visit: Mr. John Smith', 'Monday', '0900', '1015', 'Parking available at patients house.')";
+        String taskD2 = "(2, 'Afternoon Visit: Mrs. Jane Doe', 'Monday', '1100', '1215', 'Nearest parking = 5 minute walk.')";
+        String taskD3 = "(2, 'Hospital Meeting: Care Management', 'Monday', '1400', '1600', 'N/A')";
+        String taskD4 = "(2, 'Evening Visit: Ms. Jennifer Adams', 'Monday', '1700', '1900', 'Parking available at patients house.')";
+        String taskD5 = "(3, 'Morning Visit: Ms. Jennifer Adams', 'Monday', '0815', '0915', 'Use Key safe for entry')";
+        String taskD6 = "(3, 'Morning Visit Mr. Jim Jones', 'Monday', '1000', '1100', 'Parking available at patients house.')";
+        String taskD7 = "(3, 'Afternoon Visit: Mr. John Smith', 'Monday', '1400', '1600', 'Patient has an early dinner during this visit.')";
+        String taskD8 = "(3, 'Evening Visit Mr. Jane Doe', 'Monday', '1745', '1900', 'Patient will sometimes have an early dinner during their afternoon visit.')";
 
         //User default info implementation
         String USER_DEFAULT_VALUES = "INSERT INTO " + TABLE_USER + "(" + USER_COL2 + "," + USER_COL3 + ") VALUES " + userD1 + "," + userD2 + "," + userD3 + ";";
@@ -333,6 +350,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             return true;
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public boolean insertTimetableNoteData(Integer userID, String taskName, String taskDay, Integer taskStart, Integer taskFinish, String taskInfo){
+        db = this.getWritableDatabase();
+        db.setForeignKeyConstraintsEnabled(true);
+        ContentValues noteValues = new ContentValues();
+        noteValues.put(USERFEEDBACK_COL2, userID);
+        noteValues.put(TASK_COL3, taskName);
+        noteValues.put(TASK_DAY, taskDay);
+        noteValues.put(TASK_COL4, taskStart);
+        noteValues.put(TASK_COL5, taskFinish);
+        noteValues.put(TASK_COL6, taskInfo);
+        noteInputResult = db.insert(TABLE_TASK, null, noteValues);
+        db.close();
+        if (noteInputResult == -1){
+            return false;
+        } else {
+            return true;
+        }
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -502,19 +540,74 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public ArrayList<String> getTaskInfo(Integer userId, String dayOfWeek) {
-        taskArray = new ArrayList<String>();
+    public Integer getUserId(String username) {
         db = this.getWritableDatabase();
         db.setForeignKeyConstraintsEnabled(true);
-        taskQuery = "SELECT " + TASK_COL3 + "," + TASK_DAY + "," + TASK_COL4 + "," + TASK_COL5 + "," + TASK_COL6 + " FROM " + TABLE_TASK + " WHERE " + USERFEEDBACK_COL2 + " = " + userId + " AND " + TASK_DAY + " = " + dayOfWeek + " ORDER BY" + TASK_COL4 + " ASC;";
-        taskCursor = db.rawQuery(taskQuery, null);
+        userIdQuery = "SELECT " +USER_COL1+ " FROM " +TABLE_USER+ " WHERE " +USER_COL2+ " = '" +username+ "';";
+        userIdCursor = db.rawQuery(userIdQuery, null);
 
-        if (taskCursor != null && taskCursor.getCount() > 0) {
-            taskCursor.moveToFirst();
+        if (userIdCursor != null && userIdCursor.getCount() > 0) {
+            userIdCursor.moveToFirst();
             do {
-                fetchedTasks = taskCursor.getString(0);
-                taskArray.add(fetchedTasks);
-            } while (taskCursor.moveToNext());
+                fetchedUserId = userIdCursor.getInt(0);
+            } while (userIdCursor.moveToNext());
+        }
+        userIdCursor.close();
+        db.close();
+        return fetchedUserId;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public ArrayList<String> getTaskInfo(Integer userId, String dayOfWeek) {
+        taskArray = new ArrayList<String>();
+        String[] splitDay = dayOfWeek.split(" ");
+        db = this.getWritableDatabase();
+        db.setForeignKeyConstraintsEnabled(true);
+        taskQuery1 = "SELECT " + TASK_COL3 + " FROM " + TABLE_TASK + " WHERE " + USERFEEDBACK_COL2 + " = " + userId + " AND " + TASK_DAY + " = '" + dayOfWeek + "' ORDER BY " + TASK_COL4 + " ASC;";
+        taskQuery2 = "SELECT " + TASK_DAY + " FROM " + TABLE_TASK + " WHERE " + USERFEEDBACK_COL2 + " = " + userId + " AND " + TASK_DAY + " = '" + dayOfWeek + "' ORDER BY " + TASK_COL4 + " ASC;";
+        taskQuery3 = "SELECT " + TASK_COL4 + " FROM " + TABLE_TASK + " WHERE " + USERFEEDBACK_COL2 + " = " + userId + " AND " + TASK_DAY + " = '" + dayOfWeek + "' ORDER BY " + TASK_COL4 + " ASC;";
+        taskQuery4 = "SELECT " + TASK_COL5 + " FROM " + TABLE_TASK + " WHERE " + USERFEEDBACK_COL2 + " = " + userId + " AND " + TASK_DAY + " = '" + dayOfWeek + "' ORDER BY " + TASK_COL4 + " ASC;";
+        taskQuery5 = "SELECT " + TASK_COL6 + " FROM " + TABLE_TASK + " WHERE " + USERFEEDBACK_COL2 + " = " + userId + " AND " + TASK_DAY + " = '" + dayOfWeek + "' ORDER BY " + TASK_COL4 + " ASC;";
+
+        taskNameCursor = db.rawQuery(taskQuery1, null);
+        taskDayCursor = db.rawQuery(taskQuery2, null);
+        taskStartCursor = db.rawQuery(taskQuery3, null);
+        taskFinishCursor = db.rawQuery(taskQuery4, null);
+        taskInfoCursor = db.rawQuery(taskQuery5, null);
+
+        if (taskNameCursor != null && taskNameCursor.getCount() > 0 &&
+                taskDayCursor != null && taskDayCursor.getCount() > 0 &&
+                taskStartCursor != null && taskStartCursor.getCount() > 0 &&
+                taskFinishCursor != null && taskFinishCursor.getCount() > 0 &&
+                taskInfoCursor != null && taskInfoCursor.getCount() > 0 ) {
+            taskNameCursor.moveToFirst();
+            taskDayCursor.moveToFirst();
+            taskStartCursor.moveToFirst();
+            taskFinishCursor.moveToFirst();
+            taskInfoCursor.moveToFirst();
+            do {
+                fetchedTaskName = taskNameCursor.getString(0);
+                taskArray.add(fetchedTaskName);
+
+                fetchedTaskDay = taskDayCursor.getString(0);
+                taskArray.add(fetchedTaskDay);
+
+                fetchedTaskStart = taskStartCursor.getInt(0);
+                fetchedTaskStartConversion = fetchedTaskStart.toString();
+                taskArray.add(fetchedTaskStartConversion);
+
+                fetchedTaskFinish = taskFinishCursor.getInt(0);
+                fetchedTaskFinishConversion = fetchedTaskFinish.toString();
+                taskArray.add(fetchedTaskFinishConversion);
+
+                fetchedTaskInfo = taskInfoCursor.getString(0);
+                taskArray.add(fetchedTaskInfo);
+
+            } while (taskNameCursor.moveToNext() &&
+                    taskDayCursor.moveToNext() &&
+                    taskStartCursor.moveToNext() &&
+                    taskFinishCursor.moveToNext() &&
+                    taskInfoCursor.moveToNext());
         }
         return taskArray;
     }

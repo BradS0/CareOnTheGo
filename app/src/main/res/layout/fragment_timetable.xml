@@ -8,53 +8,51 @@
 
     <!-- - Gravity may no longer be needed
          - Text size may be redundant -->
+        <TableLayout
+            android:id="@+id/timetableTableBack"
+            android:background="@drawable/box_back"
+            android:layout_width="397dp"
+            android:layout_height="436dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.555"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/timetableSpinner">
 
-
-    <TableLayout
-        android:id="@+id/timetableTableBack"
-        android:layout_width="400dp"
-        android:layout_height="275dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/box_back"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_timetable">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="5dp"
-            tools:layout_editor_absoluteY="77dp" />
-    </TableLayout>
-
-    <TextView
-        android:id="@+id/text_timetable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="center"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteX="5dp"
+                tools:layout_editor_absoluteY="77dp" />
+        </TableLayout>
 
     <Spinner
         android:id="@+id/timetableSpinner"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:prompt="@string/day_of_the_week"
         android:spinnerMode="dialog"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.026"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/text_timetable" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/addTimetableNoteBtn"
+        android:layout_width="175dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/add_timetable_note_prompt"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

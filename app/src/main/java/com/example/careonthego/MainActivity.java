@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private ActionBar toolbar;
     DatabaseHelper myDb;
     BottomNavigationView navView;
+    String username;
 
 
     @Override
@@ -72,6 +73,15 @@ public class MainActivity extends AppCompatActivity {
         navView.setVisibility(View.VISIBLE);
         toolbar.setTitle(("Timetable"));
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
 
 }
 

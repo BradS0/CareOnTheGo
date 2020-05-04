@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.addTimetableNoteFragment">
+
+    <TextView
+        android:id="@+id/newNoteTextPrompt"
+        android:layout_width="371dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="3pt"
+        android:text="@string/newNoteIntroSentence"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/noteNameDisplay"
+        android:layout_width="114dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="@string/noteNameText"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newNoteTextPrompt" />
+
+    <EditText
+        android:id="@+id/noteNameInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:ems="10"
+        android:hint="@string/noteNameText"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newNoteTextPrompt" />
+
+    <TextView
+        android:id="@+id/noteDateDisplay"
+        android:layout_width="114dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="@string/noteDateText"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/noteNameDisplay" />
+
+    <EditText
+        android:id="@+id/noteDateInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:ems="10"
+        android:hint="@string/noteDateText"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/noteNameInput" />
+
+    <TextView
+        android:id="@+id/noteStartDisplay"
+        android:layout_width="114dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="@string/noteStartText"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/noteDateDisplay" />
+
+    <EditText
+        android:id="@+id/noteStartInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:ems="10"
+        android:hint="@string/noteStartText"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/noteDateInput" />
+
+    <TextView
+        android:id="@+id/noteEndDisplay"
+        android:layout_width="114dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="@string/noteEndText"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/noteStartDisplay" />
+
+    <EditText
+        android:id="@+id/noteEndInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:ems="10"
+        android:hint="@string/noteEndText"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/noteStartInput" />
+
+    <TextView
+        android:id="@+id/noteInfoDisplay"
+        android:layout_width="114dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="17dp"
+        android:gravity="center"
+        android:text="@string/noteInfoText"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/noteEndDisplay" />
+
+    <EditText
+        android:id="@+id/noteInfoInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:ems="10"
+        android:hint="@string/noteInfoText"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/noteEndInput" />
+
+    <Button
+        android:id="@+id/addNoteSubmitBtn"
+        android:layout_width="99dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/feedback_submit"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/noteInfoInput" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
