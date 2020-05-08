@@ -54,6 +54,13 @@ public class loginFragment extends Fragment {
                 }
             }
         });
+
+        forgotCredentialsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFragment(new forgotCredentialsFragment());
+            }
+        });
         return v;
     }
 

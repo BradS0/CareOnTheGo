@@ -11,6 +11,10 @@
     <string name="login_password">Password</string>
     <string name="login_forgot">Forgot Username / Password?</string>
 
+    <string name="forgottenCredentialsPrompt"> Please enter your email address below so we can send
+        you a link to remind you of your username and reset your password.
+    </string>
+    <string name="emailAddressPrompt">Email Address</string>
 
     <string name="title_feedback">Feedback</string>
     <string name="patient_name">Patient Name:</string>
@@ -76,6 +80,8 @@
     <string name="title_activity_login">Login</string>
     <string name="logged_in_activity">Logged In Activity</string>
 
+
+
     <string name="add_timetable_note_prompt">Add New Timetable Note</string>
 
     <string name="newNoteIntroSentence">Please enter the information for your new note below: </string>
@@ -84,7 +90,6 @@
     <string name="noteStartText">Note Start Time:</string>
     <string name="noteEndText">Note End Time:</string>
     <string name="noteInfoText">Note Info:</string>
-
 
 
 
