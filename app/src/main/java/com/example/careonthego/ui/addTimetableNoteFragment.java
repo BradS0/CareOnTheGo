@@ -54,8 +54,7 @@ public class addTimetableNoteFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View v) {
-                fetchedUser = ((MainActivity)getActivity()).getUsername();
-                userId = db.getUserId(fetchedUser);
+                userId = ((MainActivity)getActivity()).getUserID();
                 startTimeConversion = noteStartInput.getText().toString();
                 startTimeInt = Integer.parseInt(startTimeConversion);
                 endTimeConversion = noteEndInput.getText().toString();

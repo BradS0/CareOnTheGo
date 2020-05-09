@@ -26,7 +26,7 @@ public class patientInfoFragment extends Fragment {
 
     Spinner patientSpinner;
     DatabaseHelper db;
-    TextView emergencyDetailsDisplay, relevantDetailsDisplay;
+    TextView emergencyDetailsDisplay, relevantDetailsDisplay, addressDetailsDisplay;
     Button addNewPatientBtn;
 
     public patientInfoFragment() {
@@ -47,6 +47,7 @@ public class patientInfoFragment extends Fragment {
 */
         emergencyDetailsDisplay = (TextView)v.findViewById(R.id.emergencyDetailsDisplay);
         relevantDetailsDisplay = (TextView)v.findViewById(R.id.relevantInformationDisplay);
+        addressDetailsDisplay = (TextView)v.findViewById(R.id.patientAddressDisplay);
         patientSpinner = (Spinner)v.findViewById(R.id.patientSpinner);
         loadSpinnerChoices();
         patientSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -61,6 +62,7 @@ public class patientInfoFragment extends Fragment {
                 ArrayList<String> fetchedData = db.getPatientInfoDetails(patientLabel);
                 emergencyDetailsDisplay.setText(fetchedData.get(0));
                 relevantDetailsDisplay.setText(fetchedData.get(1));
+                addressDetailsDisplay.setText(fetchedData.get(2));
 
             }
 

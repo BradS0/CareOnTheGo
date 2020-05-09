@@ -74,8 +74,7 @@ public class timetableFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 dayLabel = parent.getItemAtPosition(position).toString();
-                username = ((MainActivity)getActivity()).getUsername();
-                userId = db.getUserId(username);
+                userId = ((MainActivity)getActivity()).getUserID();
                 fetchedTaskInfo = db.getTaskInfo(userId, dayLabel);
                 timetableInit(fetchedTaskInfo);
             }

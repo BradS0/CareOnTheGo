@@ -1,13 +1,16 @@
 package com.example.careonthego;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.careonthego.ui.accountManagementFragment;
 import com.example.careonthego.ui.feedbackFragment;
 import com.example.careonthego.ui.loginFragment;
 import com.example.careonthego.ui.medicationFragment;
@@ -21,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHelper myDb;
     BottomNavigationView navView;
     String username;
+    Integer userID;
 
 
     @Override
@@ -65,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
                 toolbar.setTitle("Feedback / Report a bug");
                 loadFragment(new feedbackFragment());
                 return true;
+            case R.id.navigation_accountManagement:
+                toolbar.setTitle("Account Management");
+                loadFragment(new accountManagementFragment());
+                return true;
         }
         return false;
     };
@@ -74,8 +82,10 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle(("Timetable"));
     }
 
-    public String getUsername() {
-        return username;
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public Integer getUserID() {
+        userID = myDb.getUserId(username);
+        return userID;
     }
 
     public void setUsername(String username) {

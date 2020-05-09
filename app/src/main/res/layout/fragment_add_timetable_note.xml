@@ -69,7 +69,7 @@
         android:layout_marginRight="30dp"
         android:ems="10"
         android:hint="@string/noteDateText"
-        android:inputType="textPersonName"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noteNameInput" />
 
@@ -96,7 +96,7 @@
         android:layout_marginRight="30dp"
         android:ems="10"
         android:hint="@string/noteStartText"
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noteDateInput" />
 
@@ -123,7 +123,7 @@
         android:layout_marginRight="30dp"
         android:ems="10"
         android:hint="@string/noteEndText"
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noteStartInput" />
 
@@ -150,7 +150,7 @@
         android:layout_marginRight="30dp"
         android:ems="10"
         android:hint="@string/noteInfoText"
-        android:inputType="textPersonName"
+        android:inputType="textImeMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noteEndInput" />
 

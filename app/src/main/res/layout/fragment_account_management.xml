@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.accountManagementFragment">
+
+    <TextView
+        android:id="@+id/editAccountPrompt"
+        android:layout_width="361dp"
+        android:layout_height="91dp"
+        android:layout_marginTop="35dp"
+        android:gravity="center"
+        android:text="@string/edit_account_prompt"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/editAccountBtn"
+        android:layout_width="165dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="@string/edit_account_button"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editAccountPrompt" />
+
+
+    <TextView
+        android:id="@+id/deleteAccountPrompt"
+        android:layout_width="361dp"
+        android:layout_height="91dp"
+        android:layout_marginTop="35dp"
+        android:gravity="center"
+        android:text="@string/delete_account_prompt"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editAccountBtn" />
+
+    <Button
+        android:id="@+id/deleteAccountBtn"
+        android:layout_width="165dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="@string/delete_account_button"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/warningPrompt" />
+
+    <TextView
+        android:id="@+id/warningPrompt"
+        android:layout_width="353dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="@string/delete_account_warning"
+        android:textColor="#FF0000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deleteAccountPrompt" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

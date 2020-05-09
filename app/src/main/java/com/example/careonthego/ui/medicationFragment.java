@@ -48,14 +48,14 @@ public class medicationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Database and View Instantiation
         db = new DatabaseHelper(getContext());
-        View v =  inflater.inflate(R.layout.fragment_medication_management, container, false);
+        View v = inflater.inflate(R.layout.fragment_medication_management, container, false);
 
         //Table Declaration
-        tableBack = (TableLayout)v.findViewById(R.id.tableView);
+        tableBack = (TableLayout) v.findViewById(R.id.tableView);
 
         //Button Declaration
-        newMedicationBtn = (Button)v.findViewById(R.id.newMedBtn);
-        newMedNotesBtn = (Button)v.findViewById(R.id.newMedNoteBtn);
+        newMedicationBtn = (Button) v.findViewById(R.id.newMedBtn);
+        newMedNotesBtn = (Button) v.findViewById(R.id.newMedNoteBtn);
         newMedicationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,8 +70,8 @@ public class medicationFragment extends Fragment {
         });
 
         // Spinner Declaration and listener implementation
-        medicationSpinner = (Spinner)v.findViewById(R.id.medicationSpinner);
-        extraMedNotesDisplay = (TextView)v.findViewById(R.id.medNoteDisplay);
+        medicationSpinner = (Spinner) v.findViewById(R.id.medicationSpinner);
+        extraMedNotesDisplay = (TextView) v.findViewById(R.id.medNoteDisplay);
 
         loadSpinnerChoices();
 
@@ -82,7 +82,7 @@ public class medicationFragment extends Fragment {
                 medPatientLabel = parent.getItemAtPosition(position).toString();
                 medPatientInfoId = db.getPatientInfoID(medPatientLabel);
                 medExtraNotes = db.getMedicationNotes(medPatientInfoId);
-                if (medExtraNotes!=null){
+                if (medExtraNotes != null) {
                     extraMedNotesDisplay.setText(medExtraNotes);
                 }
 
@@ -116,7 +116,8 @@ public class medicationFragment extends Fragment {
         medicationSpinner.setAdapter(medicationAdapter);
     }
 
-    public void tableInit(ArrayList<String> retrievedMedication){
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public void tableInit(ArrayList<String> retrievedMedication) {
         //This removes the existing entries upon changing patient selection.
         tableBack.removeAllViews();
         //Dynamically creates textviews to be inserted into the table containing the information from the medication table relevant to the patient.
@@ -124,39 +125,27 @@ public class medicationFragment extends Fragment {
         tableMedTitle = new TextView(getContext());
         tableMedQuant = new TextView(getContext());
 
-        tableMedTitle.setWidth(tableBack.getWidth() / 2);
         tableMedTitle.setText(R.string.table_title);
-        tableMedTitle.setGravity(Gravity.CENTER);
-        tableMedTitle.setTextSize(18);
-        tableMedTitle.setTextColor(Color.BLACK);
+        setElement(tableMedTitle, tableBack);
 
-        tableMedQuant.setWidth(tableBack.getWidth() / 2);
         tableMedQuant.setText(R.string.table_title);
-        tableMedQuant.setGravity(Gravity.CENTER);
-        tableMedQuant.setTextSize(18);
-        tableMedQuant.setTextColor(Color.BLACK);
+        setElement(tableMedQuant, tableBack);
 
         titleRow.addView(tableMedTitle);
         titleRow.addView(tableMedQuant);
         tableBack.addView(titleRow);
-        for(int i = 0; i < retrievedMedication.size(); i++) {
+        for (int i = 0; i < retrievedMedication.size(); i++) {
             row1 = new TableRow(getContext());
             med1 = new TextView(getContext());
-            med1.setWidth(tableBack.getWidth() / 2);
             med1.setText(retrievedMedication.get(i));
-            med1.setTextSize(18);
-            med1.setTextColor(Color.BLACK);
-            med1.setGravity(Gravity.CENTER);
+            setElement(med1, tableBack);
             row1.addView(med1);
 
             i++;
 
             med2 = new TextView(getContext());
-            med2.setWidth(tableBack.getWidth() / 2);
             med2.setText(retrievedMedication.get(i));
-            med2.setTextSize(18);
-            med2.setTextColor(Color.BLACK);
-            med2.setGravity(Gravity.CENTER);
+            setElement(med2, tableBack);
             row1.addView(med2);
             tableBack.addView(row1);
         }
@@ -170,12 +159,13 @@ public class medicationFragment extends Fragment {
         transaction.commit();
     }
 
-    public TextView setElement(TextView element) {
-        element.setWidth(boxSize);
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public TextView setElement(TextView element, TableLayout tableSize) {
+        element.setWidth(tableSize.getWidth() / 2);
         element.setGravity(Gravity.CENTER);
-        element.setTextSize(18);
         element.setTextColor(Color.BLACK);
+        element.setTextSize(18);
+
         return element;
     }
-
 }

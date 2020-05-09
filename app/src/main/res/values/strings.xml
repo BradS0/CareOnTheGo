@@ -81,7 +81,6 @@
     <string name="logged_in_activity">Logged In Activity</string>
 
 
-
     <string name="add_timetable_note_prompt">Add New Timetable Note</string>
 
     <string name="newNoteIntroSentence">Please enter the information for your new note below: </string>
@@ -92,6 +91,15 @@
     <string name="noteInfoText">Note Info:</string>
 
 
+    <string name="title_account">Account Management</string>
+    <string name="edit_account_prompt">If you wish to edit any existing account details then please press the button below.</string>
+    <string name="delete_account_prompt">If you wish to delete your account entirely, please press the button below.</string>
+    <string name="delete_account_warning">WARNING: THIS ACTION WILL PERMANENTLY REMOVE YOUR ACCOUNT FROM THE SYSTEM.</string>
+    <string name="edit_account_button">Edit Account Details</string>
+    <string name="delete_account_button">Delete Account</string>
 
+    <string name="edit_account_message">Please enter your new login details below.</string>
+    <string name="new_username_prompt">New Username:</string>
+    <string name="new_password_prompt">New Password:</string>
 
 </resources>

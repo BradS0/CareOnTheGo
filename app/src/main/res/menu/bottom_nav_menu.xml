@@ -21,6 +21,11 @@
         android:icon="@drawable/ic_bug_report_black_24dp"
         android:title="@string/title_feedback"/>
 
+    <item
+        android:id="@+id/navigation_accountManagement"
+        android:icon="@drawable/ic_account_circle_black_24dp"
+        android:title="@string/title_account"/>
+
 </menu>
 
 

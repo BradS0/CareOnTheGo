@@ -91,13 +91,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     String medQuantQuery;
     String fetchedMedNotes;
     String fetchedTaskStartConversion, fetchedTaskFinishConversion;
+    String userValueUpdateQuery;
+    String deleteUserQuery;
+    String selectAddressDetails;
+    String fetchedAddress;
     int retrievedMedID;
     Integer fetchedMedQuantInfo, fetchedMedId;
     ArrayList<String> patientInfoDetails, medicationInfo, patientNames, medicationNames, taskArray;
     ArrayList<Integer> medicationQuantInfo;
-    Cursor emergencyDetailsCursor, relevantInfoCursor, medInfoCursor, fetchedPatientInfoCursor, medQuantCursor, medNotesCursor, patientLabelCursor, medicationLabelCursor, fetchedMedIdCursor, taskNameCursor, taskDayCursor, taskStartCursor, taskFinishCursor, taskInfoCursor, usernameCheckCursor, passwordCheckCursor, userIdCursor;
+    Cursor emergencyDetailsCursor, relevantInfoCursor, medInfoCursor, fetchedPatientInfoCursor, addressCursor, medQuantCursor, medNotesCursor, patientLabelCursor, medicationLabelCursor, fetchedMedIdCursor, taskNameCursor, taskDayCursor, taskStartCursor, taskFinishCursor, taskInfoCursor, usernameCheckCursor, passwordCheckCursor, userIdCursor;
     Integer patientInfoId, relatedPatientID, fetchedUserId;
-    long feedbackResult, medNoteUpdateResult, noteInputResult;
+    long feedbackResult, medNoteUpdateResult, noteInputResult, userUpdateResult, userDeletionResult;
     SQLiteDatabase db;
 
 
@@ -180,15 +184,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String userD1 = "('admin', 'admin')";
         String userD2 = "('SmithJ', 'root')";
         String userD3 = "('SaraJ', 'root')";
+        String userD4 =  "('testUser', 'test')";
 
 
         String userInfoD1 = "(1, 'Bradley', 'Onyett', '07422526869', 'up858239@myport.ac.uk')";
         String userInfoD2 = "(2, 'James', 'Sutton', '07555436891', 'James.Sutton@gmail.com')";
 
-        String patientInfoD1 = "(1, 'John', 'Smith', 63, '56 Example Lane', 'Tendency to misplace things', '07123456789')";
-        String patientInfoD2 = "(2, 'Jane', 'Doe', 78, '99 Example Lane', 'Dislikes toast at breakfast', '07123453428')";
-        String patientInfoD3 = "(2, 'Jim', 'Jones', 85, '11 Example Lane', 'Doesnt drink hot drinks', '07987654321')";
-        String patientInfoD4 = "(1, 'Jennifer', 'Adams', 93, '33 Example Lane', 'Struggles with poor eyesight', '07213465789')";
+        String patientInfoD1 = "(1, 'John', 'Smith', 63, '56 Example Lane, Southsea, Portsmouth', 'Tendency to misplace things', '07123456789')";
+        String patientInfoD2 = "(2, 'Jane', 'Doe', 78, '99 Example Lane, Southsea, Portsmouth', 'Dislikes toast at breakfast', '07123453428')";
+        String patientInfoD3 = "(2, 'Jim', 'Jones', 85, '11 Example Lane, Southsea, Portsmouth', 'Doesnt drink hot drinks', '07987654321')";
+        String patientInfoD4 = "(1, 'Jennifer', 'Adams', 93, '33 Example Lane, Southsea, Portsmouth', 'Struggles with poor eyesight', '07213465789')";
 
         String patientMedD1 = "(2, 4, 'Allergic to ibuprofen')";
         String patientMedD2 = "(3, 1, 'Allergic to paracetamol')";
@@ -210,7 +215,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String taskD8 = "(3, 'Evening Visit Mr. Jane Doe', 'Monday', '1745', '1900', 'Patient will sometimes have an early dinner during their afternoon visit.')";
 
         //User default info implementation
-        String USER_DEFAULT_VALUES = "INSERT INTO " + TABLE_USER + "(" + USER_COL2 + "," + USER_COL3 + ") VALUES " + userD1 + "," + userD2 + "," + userD3 + ";";
+        String USER_DEFAULT_VALUES = "INSERT INTO " + TABLE_USER + "(" + USER_COL2 + "," + USER_COL3 + ") VALUES " + userD1 + "," + userD2 + "," + userD3 + "," +userD4+ ";";
         db.execSQL(USER_DEFAULT_VALUES);
 
         String USERINFO_DEFAULT_VALUES = "INSERT INTO " + TABLE_USERINFO + "(" + USER_COL1 + "," + USERINFO_COL2 + "," + USERINFO_COL3 + "," + USERINFO_COL4 + "," + USERINFO_COL5 + ") VALUES " + userInfoD1 + "," + userInfoD2 + ";";
@@ -370,7 +375,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             return true;
         }
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public boolean updateUserDetails(Integer userID, String newUsername, String newPassword) {
+        db = this.getWritableDatabase();
+        db.setForeignKeyConstraintsEnabled(true);
+        ContentValues newUserValues = new ContentValues();
+        newUserValues.put(USER_COL2, newUsername);
+        newUserValues.put(USER_COL3, newPassword);
+        userValueUpdateQuery = " " +USER_COL1+ " = " +userID+ ";";
+        userUpdateResult = db.update(TABLE_USER, newUserValues, userValueUpdateQuery, null);
+        db.close();
+        if (userUpdateResult == -1){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -419,8 +440,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.setForeignKeyConstraintsEnabled(true);
         selectEmergencyDetails = "SELECT " + PATIENTINFO_COL8 + " FROM " + TABLE_PATIENTINFO + " WHERE " + USERINFO_COL2 + "= '" + splitString[0] + "'";
         selectRelevantInfo = "SELECT " + PATIENTINFO_COL7 + " FROM " + TABLE_PATIENTINFO + " WHERE " + USERINFO_COL2 + "= '" + splitString[0] + "'";
+        selectAddressDetails = "SELECT " +PATIENTINFO_COL6+ " FROM " + TABLE_PATIENTINFO + " WHERE " + USERINFO_COL2 + "= '" + splitString[0] + "'";
         emergencyDetailsCursor = db.rawQuery(selectEmergencyDetails, null);
         relevantInfoCursor = db.rawQuery(selectRelevantInfo, null);
+        addressCursor = db.rawQuery(selectAddressDetails, null);
 
         if (relevantInfoCursor != null && relevantInfoCursor.getCount() > 0) {
             relevantInfoCursor.moveToFirst();
@@ -435,10 +458,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 fetchedDetails = emergencyDetailsCursor.getString(0);
             } while (emergencyDetailsCursor.moveToNext());
         }
+
+        if (addressCursor != null && addressCursor.getCount() > 0) {
+            addressCursor.moveToFirst();
+            do {
+                fetchedAddress = addressCursor.getString(0);
+            } while (addressCursor.moveToNext());
+        }
+
+        relevantInfoCursor.close();
         emergencyDetailsCursor.close();
+        addressCursor.close();
         db.close();
         patientInfoDetails.add(fetchedDetails);
         patientInfoDetails.add(fetchedInfo);
+        patientInfoDetails.add(fetchedAddress);
 
         return patientInfoDetails;
 
@@ -621,6 +655,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         else {
             return false;
+        }
+    }
+
+    public boolean removeUser(Integer userId){
+        db = this.getWritableDatabase();
+        deleteUserQuery = " " +USER_COL1+ " = " +userId+ ";";
+        userDeletionResult = db.delete(TABLE_USER, deleteUserQuery, null);
+        db.close();
+        if (userDeletionResult == -1) {
+            return false;
+        } else {
+            return true;
         }
     }
 

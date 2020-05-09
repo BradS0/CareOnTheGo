@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.editAccountFragment">
+
+
+    <TextView
+        android:id="@+id/newUsernamePrompt"
+        android:layout_width="144dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:paddingLeft="6dp"
+        android:text="@string/new_username_prompt"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/newUsernameInput"
+        app:layout_constraintTop_toBottomOf="@+id/editAccountDetailsIntro" />
+
+    <TextView
+        android:id="@+id/newPasswordPrompt"
+        android:layout_width="144dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:paddingLeft="6dp"
+        android:text="@string/new_password_prompt"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/newPasswordInput"
+        app:layout_constraintTop_toBottomOf="@+id/newUsernamePrompt" />
+
+    <EditText
+        android:id="@+id/newUsernameInput"
+        android:layout_width="203dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:ems="10"
+        android:hint="@string/login_username"
+        android:inputType="text"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editAccountDetailsIntro" />
+
+    <EditText
+        android:id="@+id/newPasswordInput"
+        android:layout_width="203dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:ems="10"
+        android:hint="@string/login_password"
+        android:inputType="textPassword"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newUsernameInput" />
+
+    <TextView
+        android:id="@+id/editAccountDetailsIntro"
+        android:layout_width="374dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="3pt"
+        android:text="@string/edit_account_message"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/editAccountSubmitBtn"
+        android:layout_width="75dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/colorPrimary"
+        android:text="@string/feedback_submit"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newPasswordInput" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
