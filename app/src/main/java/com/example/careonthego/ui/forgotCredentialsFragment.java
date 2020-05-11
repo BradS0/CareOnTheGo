@@ -14,7 +14,6 @@ public class forgotCredentialsFragment extends Fragment {
 
     View v;
 
-
     public forgotCredentialsFragment() {
         // Required empty public constructor
     }
@@ -24,9 +23,6 @@ public class forgotCredentialsFragment extends Fragment {
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_forgot_credentials, container, false);
         // Inflate the layout for this fragment
-
-
-
 
         return v;
     }

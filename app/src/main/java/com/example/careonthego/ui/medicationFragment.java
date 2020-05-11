@@ -128,7 +128,7 @@ public class medicationFragment extends Fragment {
         tableMedTitle.setText(R.string.table_title);
         setElement(tableMedTitle, tableBack);
 
-        tableMedQuant.setText(R.string.table_title);
+        tableMedQuant.setText(R.string.table_quantity);
         setElement(tableMedQuant, tableBack);
 
         titleRow.addView(tableMedTitle);

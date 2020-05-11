@@ -249,6 +249,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MEDICATION);
         onCreate(db);
         db.close();
+
     }
 
     // INSERT METHODS CAN BE MADE INTO ONE METHOD TO STOP DUPLICATION.
@@ -501,16 +502,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 medicationInfo.add(medQuantString);
             } while (medInfoCursor.moveToNext() && medQuantCursor.moveToNext());
         }
-/*      // Removed Code (Caused Error)
-        if (medQuantCursor!=null && medQuantCursor.getCount()>0){
-            medQuantCursor.moveToFirst();
-            do{
-                fetchedMedQuantInfo = medQuantCursor.getInt(0);
-                medQuantString = fetchedMedQuantInfo.toString();
-                medicationInfo.add(medQuantString);
-            }while(medQuantCursor.moveToNext());
-        }
-*/
 
         medInfoCursor.close();
         medQuantCursor.close();
@@ -551,7 +542,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (fetchedPatientInfoCursor.moveToNext());
         }
         fetchedPatientInfoCursor.close();
-        db.close();
+        //db.close(); // this one
         return patientInfoId;
     }
 
@@ -643,6 +634,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     taskFinishCursor.moveToNext() &&
                     taskInfoCursor.moveToNext());
         }
+        taskNameCursor.close();
+        taskDayCursor.close();
+        taskStartCursor.close();
+        taskFinishCursor.close();
+        taskInfoCursor.close();
+        db.close();
         return taskArray;
     }
 
