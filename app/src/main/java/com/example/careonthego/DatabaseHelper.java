@@ -144,7 +144,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + USERFEEDBACK_COL2 + " INTEGER, "
                 + USERFEEDBACK_COL3 + " INTEGER, "
                 + USERFEEDBACK_COL4 + " TEXT, "
-                + USERFEEDBACK_COL5 + " TEXT, FOREIGN KEY(" + USERFEEDBACK_COL2 + ") REFERENCES " + TABLE_USER + "(" + USER_COL1 + "));";
+                + USERFEEDBACK_COL5 + " TEXT, FOREIGN KEY(" + USERFEEDBACK_COL2 + ") REFERENCES " + TABLE_USER + "(" + USER_COL1 + ") ON DELETE CASCADE) ;";
         db.execSQL(USERFEEDBACK_TABLE_CREATE);
 
         String TASK_TABLE_CREATE = "CREATE TABLE " + TABLE_TASK + " ("
@@ -154,7 +154,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + TASK_DAY + " TEXT NOT NULL,"
                 + TASK_COL4 + " INTEGER NOT NULL, "
                 + TASK_COL5 + " INTEGER NOT NULL, "
-                + TASK_COL6 + " TEXT, FOREIGN KEY(" + USERFEEDBACK_COL2 + ") REFERENCES " + TABLE_USER + "(" + USER_COL1 + "));";
+                + TASK_COL6 + " TEXT, FOREIGN KEY(" + USERFEEDBACK_COL2 + ") REFERENCES " + TABLE_USER + "(" + USER_COL1 + ") ON DELETE CASCADE);";
         db.execSQL(TASK_TABLE_CREATE);
 
         String PATIENTINFO_TABLE_CREATE = "CREATE TABLE " + TABLE_PATIENTINFO + " ("
@@ -165,7 +165,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + PATIENTINFO_COL5 + " INTEGER NOT NULL, "
                 + PATIENTINFO_COL6 + " TEXT NOT NULL, "
                 + PATIENTINFO_COL7 + " TEXT, "
-                + PATIENTINFO_COL8 + " TEXT NOT NULL, FOREIGN KEY(" + USERFEEDBACK_COL2 + ") REFERENCES " + TABLE_USER + "(" + USER_COL1 + "));";
+                + PATIENTINFO_COL8 + " TEXT NOT NULL, FOREIGN KEY(" + USERFEEDBACK_COL2 + ") REFERENCES " + TABLE_USER + "(" + USER_COL1 + ") ON DELETE CASCADE);";
         db.execSQL(PATIENTINFO_TABLE_CREATE);
 
         String MEDICATION_TABLE_CREATE = "CREATE TABLE " + TABLE_MEDICATION + " ("
@@ -188,7 +188,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
         String userInfoD1 = "(1, 'Bradley', 'Onyett', '07422526869', 'up858239@myport.ac.uk')";
-        String userInfoD2 = "(2, 'James', 'Sutton', '07555436891', 'James.Sutton@gmail.com')";
+        String userInfoD2 = "(2, 'James', 'Smith', '07555436891', 'James.Smith@gmail.com')";
+        String userInfoD3 = "(3, 'Jayne', 'Sara', '07555431473', 'Jayne.Sara@gmail.com')";
 
         String patientInfoD1 = "(1, 'John', 'Smith', 63, '56 Example Lane, Southsea, Portsmouth', 'Tendency to misplace things', '07123456789')";
         String patientInfoD2 = "(2, 'Jane', 'Doe', 78, '99 Example Lane, Southsea, Portsmouth', 'Dislikes toast at breakfast', '07123453428')";
@@ -212,13 +213,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String taskD5 = "(3, 'Morning Visit: Ms. Jennifer Adams', 'Monday', '0815', '0915', 'Use Key safe for entry')";
         String taskD6 = "(3, 'Morning Visit Mr. Jim Jones', 'Monday', '1000', '1100', 'Parking available at patients house.')";
         String taskD7 = "(3, 'Afternoon Visit: Mr. John Smith', 'Monday', '1400', '1600', 'Patient has an early dinner during this visit.')";
-        String taskD8 = "(3, 'Evening Visit Mr. Jane Doe', 'Monday', '1745', '1900', 'Patient will sometimes have an early dinner during their afternoon visit.')";
+        String taskD8 = "(3, 'Evening Visit: Mrs. Jane Doe', 'Monday', '1745', '1900', 'Patient will sometimes have an early dinner during their afternoon visit.')";
+        String taskD9 = "(2, 'Morning Visit: Mrs. Jane Doe', 'Tuesday', '0900', '1000', 'Patient is hard of hearing.')";
+        String taskD10 = "(2, 'Afternoon Visit Mr. John Smith', 'Tuesday', '1100', '1300', 'Patient will have lunch during this visit.')";
+        String taskD11 = "(2, 'Evening Visit Ms. Jennifer Adams', 'Tuesday', '1745', '1900', 'Patient will sometimes have an early dinner during their afternoon visit.')";
+        String taskD12 = "(2, 'Morning Visit: Mr. John Smith', 'Wednesday', '0845', '1000', 'Parking available at patients house.')";
+        String taskD13 = "(2, 'Afternoon Visit Ms. Jennifer Adams', 'Wednesday', '1100', '1300', 'Patient will have lunch during this visit.')";
+        String taskD14 = "(2, 'Evening Visit Ms. Jennifer Adams', 'Wednesday', '1745', '1900', 'Patient will sometimes have an early dinner during their afternoon visit.')";
+
+
 
         //User default info implementation
         String USER_DEFAULT_VALUES = "INSERT INTO " + TABLE_USER + "(" + USER_COL2 + "," + USER_COL3 + ") VALUES " + userD1 + "," + userD2 + "," + userD3 + "," +userD4+ ";";
         db.execSQL(USER_DEFAULT_VALUES);
 
-        String USERINFO_DEFAULT_VALUES = "INSERT INTO " + TABLE_USERINFO + "(" + USER_COL1 + "," + USERINFO_COL2 + "," + USERINFO_COL3 + "," + USERINFO_COL4 + "," + USERINFO_COL5 + ") VALUES " + userInfoD1 + "," + userInfoD2 + ";";
+        String USERINFO_DEFAULT_VALUES = "INSERT INTO " + TABLE_USERINFO + "(" + USER_COL1 + "," + USERINFO_COL2 + "," + USERINFO_COL3 + "," + USERINFO_COL4 + "," + USERINFO_COL5 + ") VALUES " + userInfoD1 + "," + userInfoD2 + "," +userInfoD3+";";
         db.execSQL(USERINFO_DEFAULT_VALUES);
 
         String PATIENTINFO_DEFAULT_VALUES = "INSERT INTO " + TABLE_PATIENTINFO + "(" + USERFEEDBACK_COL2 + "," + USERINFO_COL2 + "," + USERINFO_COL3 + "," + PATIENTINFO_COL5 + "," + PATIENTINFO_COL6 + "," + PATIENTINFO_COL7 + "," + PATIENTINFO_COL8 + ") VALUES " + patientInfoD1 + "," + patientInfoD2 + "," + patientInfoD3 + "," + patientInfoD4 + ";";
@@ -232,7 +241,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String PATIENTMED_DEFAULT_VALUES = "INSERT INTO " + TABLE_PATIENTMED + "(" + PATIENTMED_COL2 + "," + PATIENTMED_COL3 + "," + PATIENTMED_COL4 + ") VALUES " + patientMedD1 + "," + patientMedD2 + "," + patientMedD3 + "," + patientMedD4 + ";";
         db.execSQL(PATIENTMED_DEFAULT_VALUES);
 
-        String TASK_DEFAULT_VALUES = "INSERT INTO " + TABLE_TASK + "(" + USERFEEDBACK_COL2 + "," + TASK_COL3 + "," + TASK_DAY + "," + TASK_COL4 + "," + TASK_COL5 + "," + TASK_COL6 + ") VALUES " + taskD1 + "," + taskD2 + "," + taskD3 + "," + taskD4 + "," + taskD5 + "," + taskD6 + "," + taskD7 + "," + taskD8 + ";";
+        String TASK_DEFAULT_VALUES = "INSERT INTO " + TABLE_TASK + "(" + USERFEEDBACK_COL2 + "," + TASK_COL3 + "," + TASK_DAY + "," + TASK_COL4 + "," + TASK_COL5 + "," + TASK_COL6 + ") VALUES " + taskD1 + "," + taskD2 + "," + taskD3 + "," + taskD4 + "," + taskD5 + "," + taskD6 + "," + taskD7 + "," + taskD8 + "," + taskD9 + "," + taskD10 + "," + taskD11 + "," + taskD12 + "," +taskD13+ "," +taskD14+";";
         db.execSQL(TASK_DEFAULT_VALUES);
     }
 
